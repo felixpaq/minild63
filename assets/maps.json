@@ -1,0 +1,19 @@
+{
+  "manifest":[
+    {
+      "id":"basicMap",
+      "src":"assets/maps/basic.json",
+      "tag":"map"
+    },
+    {
+      "id":"basicTileSheet",
+      "src":"assets/tiles/basicTileSheet.jpg",
+      "tag":"tile"
+    },
+    {
+      "id":"basicTileSheet2",
+      "src":"assets/tiles/basicTileSheet2.jpg",
+      "tag":"tile"
+    }
+  ]
+}
