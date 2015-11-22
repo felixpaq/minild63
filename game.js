@@ -21,24 +21,16 @@ function init() {
 	Controls.getInstance().addEvents();
 	stage.addChild(shape);
     
-    miniGamBridge  = new MiniGameBridge(stage);
-	
+    miniGamBridge = new MiniGameBridge(stage);
+	console.log(miniGamBridge);
 	
 	createjs.EventDispatcher.initialize(globalDispatcher);
-	globalDispatcher.addEventListener("tabarnak",onMiniGameBridgeReady);
-	this.miniGamBridge.on("test",onMiniGameBridgeReady);
-	this.miniGamBridge.on("test",function(){console.log("ridicule");});
-	miniGamBridge.on("test",onMiniGameBridgeReady.bind(this));
-	miniGamBridge.on("test",createjs.proxy(onMiniGameBridgeReady, this));
-	miniGamBridge.addEventListener("test",onMiniGameBridgeReady);
-	miniGamBridge.addEventListener("test",onMiniGameBridgeReady.bind(this));
-	miniGamBridge.addEventListener("test", createjs.proxy(onMiniGameBridgeReady, this));
+	this.miniGamBridge.on(MiniGameBridge.READY,onMiniGameBridgeReady);
 	miniGamBridge.loadMiniGamInfo();
 }
 
 function onMiniGameBridgeReady(event)
 {
-	console.log("I GET HERE");
 	miniGamBridge.openMiniGame("mini_game_0");
 }
 

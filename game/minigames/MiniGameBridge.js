@@ -1,19 +1,23 @@
 
 (function(window) 
 {
-	
-	function MiniGameBridge($stage){
+	var MiniGameBridge = window.MiniGameBridge = function($stage){
+	// function MiniGameBridge($stage){
 		p.stageRef = $stage;	
 		createjs.EventDispatcher.initialize(MiniGameBridge.prototype);
-		createjs.EventDispatcher.initialize(MiniGameBridge);
-        this.EventDispatcher_constructor();
+		this.Container_constructor();
+		// createjs.EventDispatcher.initialize(MiniGameBridge);
+		p.that = this;
 		// this.setGraphics();
+		// return this;
 	}
-	var p = createjs.extend(MiniGameBridge, createjs.EventDispatcher);
+	
+	var p = createjs.extend(MiniGameBridge, createjs.Container);
 	
 	MiniGameBridge.READY = "ready";
 	
 	p.stageRef;
+	p.that;
 	
 	p.miniGameAssetAtlas = {};
 	p.miniGameTweakerAtlas = {};
@@ -38,14 +42,16 @@
 	
 	MiniGameBridge.prototype.loadMiniGamInfo = function()
 	{
-		p.dispatchEvent(new createjs.Event("tabarnak"));
+		// p.dispatchEvent(new createjs.Event("tabarnak"));
+		// console.log(p);
+		// console.log(this);
 		var manifest = [
 			{src: "./data/minigame/minigames.json", id: "minigames"}
 		];
 		p.isAssetAtlasLoaded = false;
 		p.isTweakerLoaded = false;
 		p.manifestLoader = new createjs.LoadQueue(false);
-		p.manifestLoader.addEventListener("complete", p.loadMiniGames);
+		p.manifestLoader.addEventListener("complete", p.loadMiniGames.bind(this));
 		p.manifestLoader.loadManifest(manifest, true);
 		
 	};
@@ -53,6 +59,8 @@
 	
 	p.loadMiniGames = function()
 	{
+		// console.log(p);
+		console.log(this);
 		p.miniGameInfoList = p.manifestLoader.getResult("minigames");
 		for(var miniGameId in p.miniGameInfoList)
 		{
@@ -69,13 +77,13 @@
 			});
 		}
 		p.manifestLoaderTweakers = new createjs.LoadQueue(false);
-		p.manifestLoaderTweakers.addEventListener("fileload", p.addEntryInTweakerAtlas);
-		p.manifestLoaderTweakers.addEventListener("complete", p.onCompleteTweakerLoad);
+		p.manifestLoaderTweakers.addEventListener("fileload", p.addEntryInTweakerAtlas.bind(this));
+		p.manifestLoaderTweakers.addEventListener("complete", p.onCompleteTweakerLoad.bind(this));
 		p.manifestLoaderTweakers.loadManifest(p.manifestTweakers, true);
 		
 		p.manifestLoaderAssets = new createjs.LoadQueue(false);
-		p.manifestLoaderAssets.addEventListener("fileload", p.addEntryInMiniGameAssetLoadList);
-		p.manifestLoaderAssets.addEventListener("complete", p.onCompleteAssetLoad);
+		p.manifestLoaderAssets.addEventListener("fileload", p.addEntryInMiniGameAssetLoadList.bind(this));
+		p.manifestLoaderAssets.addEventListener("complete", p.onCompleteAssetLoad.bind(this));
 		p.manifestLoaderAssets.loadManifest(p.manifestAssets, true);
 	};
 	
@@ -96,8 +104,8 @@
 	p.onCompleteAssetLoad = function(event)
 	{
 		p.miniGameAssetLoader = new createjs.LoadQueue(false);
-		p.miniGameAssetLoader.addEventListener("fileload", p.addMiniGameAssetToAtlas);
-		p.miniGameAssetLoader.addEventListener("complete", p.onCompleteminiGameAssetLoad);
+		p.miniGameAssetLoader.addEventListener("fileload", p.addMiniGameAssetToAtlas.bind(this));
+		p.miniGameAssetLoader.addEventListener("complete", p.onCompleteminiGameAssetLoad.bind(this));
 		p.miniGameAssetLoader.loadManifest(p.miniGameAsseLoadingList, true);
 	}
 	
@@ -113,27 +121,32 @@
 	
 	p.onCompleteminiGameAssetLoad = function(event)
 	{
+		console.log(this)
 		p.isAssetAtlasLoaded = true;
-		p.checkIfAllLoaded();
+		this.checkIfAllLoaded();
 	}
 	
 	p.onCompleteTweakerLoad = function(event)
 	{
 		p.isTweakerLoaded = true;
-		p.checkIfAllLoaded();
+		this.checkIfAllLoaded();
 	}
 	
 	p.checkIfAllLoaded = function()
 	{
 		if(p.isTweakerLoaded&&p.isAssetAtlasLoaded)
 		{
-			var event = new createjs.Event("test");
-			p.dispatchEvent(event);
-			this.dispatchEvent(event);
-			p.dispatchEvent("test");
-			this.dispatchEvent("test");
-			event = new createjs.Event("tabarnak");
-			globalDispatcher.dispatchEvent(event);
+			console.log(this);
+			// var event = new createjs.Event("test");
+			// p.dispatchEvent(event);
+			// this.dispatchEvent(event);
+			// p.dispatchEvent("test");
+			// console.log(p);
+			// console.log(this);
+			this.dispatchEvent(MiniGameBridge.READY);
+			// this.dispatchEvent("test");
+			// var event = new createjs.Event("tabarnak");
+			// globalDispatcher.dispatchEvent(event);
 			
 		}
 	}
@@ -146,12 +159,13 @@
 				p._currenMiniGame = new RemoteMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
 		}
+		// console.log(p._currenMiniGame);
 		p._currenMiniGame.on("test",function(){console.log("should work")});
-		// p._currenMiniGame.test();
+		p._currenMiniGame.test();
 		p.stageRef.addChild(p._currenMiniGame);
 	}
 	
-	window.MiniGameBridge = createjs.promote(MiniGameBridge, "EventDispatcher");
+	window.MiniGameBridge = createjs.promote(MiniGameBridge, "Container");
 
 
 }(window));

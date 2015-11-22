@@ -19,7 +19,7 @@
 		
 	}
 	p.test = function()
-	{		
+	{ 
 		this.dispatchEvent("test");
 	}
 	
