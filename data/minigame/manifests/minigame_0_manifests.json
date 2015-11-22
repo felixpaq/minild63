@@ -1,0 +1,9 @@
+{
+	"asset_list":
+	[
+		{
+			src: "asset/minigames/test.png",
+			id: "minigame_0_test_asset"
+		}
+	]
+}
