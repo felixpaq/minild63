@@ -70,6 +70,9 @@ var game = (function(){
     return {
         init:function(){
             init();
+        },
+        switchMap:function(id){
+            mapFactory.switchMap(id);
         }
     }
 })();

@@ -6,6 +6,11 @@
       "tag":"map"
     },
     {
+      "id":"basicMap2",
+      "src":"assets/maps/basic2.json",
+      "tag":"map"
+    },
+    {
       "id":"basicTileSheet",
       "src":"assets/tiles/basicTileSheet.jpg",
       "tag":"tile"

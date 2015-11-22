@@ -16,7 +16,8 @@
     MapFactory.prototype.init = function(){
 
         var mapId,
-            mapData;
+            mapData,
+            map;
 
         this.maps = {};
 
@@ -24,8 +25,16 @@
 
             mapData = this.mapsData[mapId];
 
-            this.maps[mapId] = new Map(mapData,this.spritesheet);
+            map = new Map(mapData,this.spritesheet);
+            map.on(Map.events.MAP_LOADED,function(){
+                console.log(this,"maploaded");
+            });
+            map.init();
+
+            this.maps[mapId] = map;
         }
+
+
     };
 
     MapFactory.prototype.switchMap = function(id){

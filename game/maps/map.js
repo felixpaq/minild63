@@ -4,17 +4,24 @@
 
     var Map = window.Map = function(mapData,spritesheet){
 
+        createjs.EventDispatcher.initialize(Map.prototype);
+
         this.mapData = mapData;
         this.spritesheet = spritesheet;
         this.viewport = new createjs.Container();
 
-        this.init();
+        //this.init();
 
         return this;
     };
 
+    Map.events = {
+        MAP_LOADED:"mapLoaded"
+    };
+
     Map.prototype.init = function(){
         this.setupLayers();
+        this.dispatchEvent(Map.events.MAP_LOADED);
     };
 
     Map.prototype.setupLayers = function(){
