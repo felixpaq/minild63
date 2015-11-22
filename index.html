@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            ma maman mange tes shorts
-        </title>
-        <script src="https://code.createjs.com/createjs-2015.05.21.min.js"></script>
-        <script src="game/minigames/MiniGameBridge.js"></script>
-        <script src="game/minigames/MiniGamebase.js"></script>
-        <script src="game/utils/Controls.js"></script>
-        <script src="game/ui/JoyStick.js"></script>
-        <script src="game.js"></script>
-    </head>
-    <body onload="init();">
-        <canvas id="testCanvas" width="800" height="400"></canvas>
-        <script type="text/javascript">
-           
-        </script>
-    </body>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        The life of Misteur Lachance
+    </title>
+    <script src="https://code.createjs.com/createjs-2015.05.21.min.js"></script>
+	 <script src="game/minigames/MiniGameBridge.js"></script>
+	<script src="game/minigames/MiniGamebase.js"></script>
+	<script src="game/utils/Controls.js"></script>
+	<script src="game/ui/JoyStick.js"></script>
+    <script src="game/game.js"></script>
+    <script src="game/maps/factory.js"></script>
+    <script src="game/maps/map.js"></script>
+</head>
+
+<body onload="game.init();">
+    <canvas id="canvas" width="25000" height="8000"></canvas>
+</body>
 </html>
