@@ -26,19 +26,19 @@ function init() {
 	
 	createjs.EventDispatcher.initialize(globalDispatcher);
 	globalDispatcher.addEventListener("tabarnak",onMiniGameBridgeReady);
-	miniGamBridge.on("test",onMiniGameBridgeReady);
+	this.miniGamBridge.on("test",onMiniGameBridgeReady);
+	this.miniGamBridge.on("test",function(){console.log("ridicule");});
+	miniGamBridge.on("test",onMiniGameBridgeReady.bind(this));
+	miniGamBridge.on("test",createjs.proxy(onMiniGameBridgeReady, this));
+	miniGamBridge.addEventListener("test",onMiniGameBridgeReady);
+	miniGamBridge.addEventListener("test",onMiniGameBridgeReady.bind(this));
+	miniGamBridge.addEventListener("test", createjs.proxy(onMiniGameBridgeReady, this));
 	miniGamBridge.loadMiniGamInfo();
-	
-	
-	// miniGamBridge.on("test",onMiniGameBridgeReady.bind(this));
-	// miniGamBridge.on("test",createjs.proxy(onMiniGameBridgeReady, this));
-	// miniGamBridge.addEventListener("test",onMiniGameBridgeReady);
-	// miniGamBridge.addEventListener("test",onMiniGameBridgeReady.bind(this));
-	// miniGamBridge.addEventListener("test", createjs.proxy(onWTF, this));
 }
 
 function onMiniGameBridgeReady(event)
 {
+	console.log("I GET HERE");
 	miniGamBridge.openMiniGame("mini_game_0");
 }
 

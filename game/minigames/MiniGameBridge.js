@@ -4,6 +4,7 @@
 	
 	function MiniGameBridge($stage){
 		p.stageRef = $stage;	
+		createjs.EventDispatcher.initialize(MiniGameBridge.prototype);
 		createjs.EventDispatcher.initialize(MiniGameBridge);
         this.EventDispatcher_constructor();
 		// this.setGraphics();
@@ -35,7 +36,7 @@
 	
 
 	
-	p.loadMiniGamInfo = function()
+	MiniGameBridge.prototype.loadMiniGamInfo = function()
 	{
 		p.dispatchEvent(new createjs.Event("tabarnak"));
 		var manifest = [
@@ -129,6 +130,8 @@
 			var event = new createjs.Event("test");
 			p.dispatchEvent(event);
 			this.dispatchEvent(event);
+			p.dispatchEvent("test");
+			this.dispatchEvent("test");
 			event = new createjs.Event("tabarnak");
 			globalDispatcher.dispatchEvent(event);
 			
@@ -143,6 +146,8 @@
 				p._currenMiniGame = new RemoteMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
 		}
+		p._currenMiniGame.on("test",function(){console.log("should work")});
+		// p._currenMiniGame.test();
 		p.stageRef.addChild(p._currenMiniGame);
 	}
 	
