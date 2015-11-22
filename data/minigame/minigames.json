@@ -2,7 +2,7 @@
 	"mini_game_0":
 	{
 		"name":"MIGTHY PARKINSON BINGO",
-		"tweaker":"/data/minigame/tweaker/minigame_0_tweaker.json",
-		"assets":"/data/minigame/manifests/minigame_0_manifests.json"
+		"tweaker":"data/minigame/tweaker/minigame_0_tweaker.json",
+		"assets":"data/minigame/manifests/minigame_0_manifests.json"
 	}
 }

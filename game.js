@@ -5,52 +5,42 @@ var shape = new createjs.Shape(graphics);
 var speed = 15;
 //var loader;
 var miniGamBridge;
+var globalDispatcher = new createjs.EventDispatcher();
 function init() {
 	
-	stage = new createjs.Stage("testCanvas");
+	stage = new createjs.Stage("canvas");
 
 	// grab canvas width and height for later calculations:
 	w = stage.canvas.width;
 	h = stage.canvas.height;
 
-	// manifest = [
-		// {src: "spritesheet_grant.png", id: "grant"},
-		// {src: "sky.png", id: "sky"},
-		// {src: "ground.png", id: "ground"},
-		// {src: "hill1.png", id: "hill"},
-		// {src: "hill2.png", id: "hill2"}
-	// ];
-
-	// loader = new createjs.LoadQueue(false);
-	// loader.addEventListener("complete", handleComplete);
-	// loader.loadManifest(manifest, true, "../_assets/art/");
 	
-	// var manifest = [
-		// {src: "./data/minigame/minigames.json", id: "minigames"}
-	// ];
-	
-	// loader = new createjs.LoadQueue(false);
-	// loader.addEventListener("complete", handleComplete);
-	// loader.loadManifest(manifest, true);
+	createjs.Ticker.timingMode = createjs.Ticker.RAF;
+	createjs.Ticker.addEventListener("tick", tick);
 	
 	Controls.getInstance().addEvents();
 	stage.addChild(shape);
-    // var test = new JoyStick();
-    // test.x = 15;
-    // test.y = 15;
-    // stage.addChild(test);
-    miniGamBridge  = new MiniGameBridge();
+    
+    miniGamBridge  = new MiniGameBridge(stage);
+	
+	
+	createjs.EventDispatcher.initialize(globalDispatcher);
+	globalDispatcher.addEventListener("tabarnak",onMiniGameBridgeReady);
+	miniGamBridge.on("test",onMiniGameBridgeReady);
 	miniGamBridge.loadMiniGamInfo();
-	createjs.Ticker.timingMode = createjs.Ticker.RAF;
-	createjs.Ticker.addEventListener("tick", tick);
+	
+	
+	// miniGamBridge.on("test",onMiniGameBridgeReady.bind(this));
+	// miniGamBridge.on("test",createjs.proxy(onMiniGameBridgeReady, this));
+	// miniGamBridge.addEventListener("test",onMiniGameBridgeReady);
+	// miniGamBridge.addEventListener("test",onMiniGameBridgeReady.bind(this));
+	// miniGamBridge.addEventListener("test", createjs.proxy(onWTF, this));
 }
 
-function handleComplete(event)
+function onMiniGameBridgeReady(event)
 {
-	var test = loader.getResult("minigames");
-	console.log(test);
+	miniGamBridge.openMiniGame("mini_game_0");
 }
-
 
 function tick(event) {
     
@@ -74,7 +64,7 @@ function tick(event) {
     
     if(Controls.KEYB_BUTTON[Controls.RIGHT]||Controls.KEYB_BUTTON[Controls.D])
     {
-          console.log("RIGHT");
+          // console.log("RIGHT");
         shape.x+=speed;
     }
     stage.update(event);
