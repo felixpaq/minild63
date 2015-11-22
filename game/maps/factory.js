@@ -28,6 +28,11 @@
         }
     };
 
+    MapFactory.prototype.switchMap = function(id){
+        console.log(this.maps[id]);
+        this.stage.addChild(this.maps[id].viewport);
+    };
+
     function extend(out) {
         out = out || {};
 
