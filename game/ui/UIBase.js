@@ -1,15 +1,12 @@
 
 (function(window) {
-	MiniGameBase.prototype._assetsAtlas;
-	MiniGameBase.prototype._tweakers;
-	function MiniGameBase(tweakers,assetsAtlas)
+	
+	function UIBase()
 	{
         this.Container_constructor();
-		p._assetsAtlas = assetsAtlas;
-		p._tweakers = tweakers;
 		this.on("added",this.init);
 	}
-	var p = createjs.extend(MiniGameBase, createjs.Container);
+	var p = createjs.extend(UIBase, createjs.Container);
 		
 	p.init = function()
 	{		
@@ -38,7 +35,7 @@
 		this.removeFocusListener();
 	}
 	
-	window.MiniGameBase = createjs.promote(MiniGameBase, "Container");
+	window.UIBase = createjs.promote(UIBase, "Container");
 
 
 }(window));

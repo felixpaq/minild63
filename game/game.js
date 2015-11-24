@@ -15,6 +15,9 @@
         return this;
     };
 
+	Game.prototype.isMiniGameBridgeReady = false;
+	Game.prototype.miniGamBridge = false;
+	
     Game.prototype.init = function (){
         stage = new createjs.Stage("canvas");
         w = stage.canvas.width;
@@ -28,9 +31,18 @@
         this.loader = new createjs.LoadQueue(false);
         this.loader.addEventListener("complete", this.handleComplete.bind(this));
         this.loader.loadManifest(manifest, true);
+		
+		this.miniGamBridge = new MiniGameBridge(stage);
+		this.miniGamBridge.on(MiniGameBridge.READY,this.onMiniGameBridgeReady.bind(this));
+		this.miniGamBridge.loadMiniGamInfo();
+	};
 
-    };
-
+	
+	Game.prototype.onMiniGameBridgeReady = function(event)
+	{
+		this.isMiniGameBridgeReady = true
+	}
+	
     Game.prototype.handleComplete = function(){
         var loadedItemIdx = 0,
             loadedItems = this.loader.getItems(),

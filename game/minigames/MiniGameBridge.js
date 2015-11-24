@@ -160,9 +160,25 @@
 			break;
 		}
 		// console.log(p._currenMiniGame);
-		p._currenMiniGame.on("test",function(){console.log("should work")});
-		p._currenMiniGame.test();
+		// p._currenMiniGame.on("test",function(){console.log("should work")});
+		p._currenMiniGame.on("success",p.onGameEnd.bind(this));
+		p._currenMiniGame.on("fail",p.onGameEnd.bind(this));
 		p.stageRef.addChild(p._currenMiniGame);
+		// p._currenMiniGame.test();
+	}
+	p.onGameEnd = function(event)
+	{
+		switch(event.type)
+		{
+			case "success":
+				console.log("success");
+			break;
+			case "fail":
+				console.log("fail");
+			break;
+		}
+		p.stageRef.removeChild(p._currenMiniGame);
+		
 	}
 	
 	window.MiniGameBridge = createjs.promote(MiniGameBridge, "Container");

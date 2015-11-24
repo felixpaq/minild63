@@ -33,14 +33,16 @@
     <script src="game/minigames/RemoteMiniGame.js"></script>
     <script src="game/minigames/MiniGameBridge.js"></script>
     <script src="game/utils/Controls.js"></script>
+    <script src="game/ui/UIBase.js"></script>
     <script src="game/ui/JoyStick.js"></script>
+    <script src="game/ui/GaugeBar.js"></script>
     <script src="game/actors/actor.js"></script>
     <script src="game/actors/player.js"></script>
     <script src="game/maps/factory.js"></script>
     <script src="game/maps/map.js"></script>
     <script src="game/world.js"></script>
     <script src="game/game.js"></script>
-    <!--<script src="game.js"></script>-->
+    <!-- <script src="game.js"></script> -->
 </head>
 
 <body>
@@ -53,18 +55,29 @@
         <button class="toggleDebug" onclick="toggleDebug();">
             toggle debug
         </button>
+        <button class="toggleDebug" onclick="launchMiniGame();">
+            launch MiniGame
+        </button>
     </div>
     <script>
         var game = new Game();
 
         var debugCanvas = document.getElementById("debugCanvas");
+        function launchMiniGame(){
+			console.log(game);
+			if(game.isMiniGameBridgeReady)
+			{
+				game.miniGamBridge.openMiniGame("mini_game_0");
+			}
+		}
+		
         function toggleDebug(){
             if(debugCanvas.className.match(/(?:^|\s)hidden(?!\S)/)){
                 debugCanvas.className = debugCanvas.className.replace( /(?:^|\s)hidden(?!\S)/g , '' );
             }else{
                 debugCanvas.className += "hidden";
             }
-        }
+        }		
     </script>
 </body>
 </html>

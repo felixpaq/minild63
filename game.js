@@ -1,7 +1,7 @@
 var stage, w, h, loader;
 // var sky, grant, ground, hill, hill2;
-var graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
-var shape = new createjs.Shape(graphics);
+// var graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
+// var shape = new createjs.Shape(graphics);
 var speed = 15;
 //var loader;
 var miniGamBridge;
@@ -9,22 +9,22 @@ var globalDispatcher = new createjs.EventDispatcher();
 function init() {
 	
 	stage = new createjs.Stage("canvas");
+	stage.enableDOMEvents(true);
 
 	// grab canvas width and height for later calculations:
 	w = stage.canvas.width;
 	h = stage.canvas.height;
-
 	
 	createjs.Ticker.timingMode = createjs.Ticker.RAF;
 	createjs.Ticker.addEventListener("tick", tick);
 	
 	Controls.getInstance().addEvents();
-	stage.addChild(shape);
+	// stage.addChild(shape);
     
-    miniGamBridge = new MiniGameBridge(stage);
 	console.log(miniGamBridge);
 	
 	createjs.EventDispatcher.initialize(globalDispatcher);
+    miniGamBridge = new MiniGameBridge(stage);
 	this.miniGamBridge.on(MiniGameBridge.READY,onMiniGameBridgeReady);
 	miniGamBridge.loadMiniGamInfo();
 }
