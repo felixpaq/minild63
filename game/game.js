@@ -1,32 +1,39 @@
-var game = (function(){
+
+(function(){
+
     var stage,
         w,
         h,
         manifest,
-        loader,
         mapFactory,
         maps = {},
         tiles = [],
         spritesheet;
 
-    function init(){
+    var Game = window.Game = function(){
+        this.init();
+        return this;
+    };
+
+    Game.prototype.init = function (){
         stage = new createjs.Stage("canvas");
         w = stage.canvas.width;
         h = stage.canvas.height;
 
+
         manifest = [
-            {src: "assets/maps.json", type:"manifest"}
+            {src: "assets/assets.json", type:"manifest"}
         ];
 
-        loader = new createjs.LoadQueue(false);
-        loader.addEventListener("complete", handleComplete);
-        loader.loadManifest(manifest, true);
+        this.loader = new createjs.LoadQueue(false);
+        this.loader.addEventListener("complete", this.handleComplete.bind(this));
+        this.loader.loadManifest(manifest, true);
 
-    }
+    };
 
-    function handleComplete(){
+    Game.prototype.handleComplete = function(){
         var loadedItemIdx = 0,
-            loadedItems = loader.getItems(),
+            loadedItems = this.loader.getItems(),
             loadedItem,
             itemTag;
 
@@ -54,25 +61,24 @@ var game = (function(){
                 height : 32
             }
         });
-
+        console.log(this);
+        Controls.getInstance().addEvents();
+        this.world = new World(true);
         mapFactory = new MapFactory(maps,spritesheet,stage);
 
-        mapFactory.switchMap("basicMap");
+        mapFactory.switchMap("collisions");
 
+        createjs.Ticker.framerate = 24;
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
-        createjs.Ticker.addEventListener("tick", tick);
-    }
+        createjs.Ticker.addEventListener("tick", this.tick.bind(this));
+    };
 
-    function tick(event) {
+    Game.prototype.tick = function(event) {
         stage.update(event);
-    }
+        this.world.update();
 
-    return {
-        init:function(){
-            init();
-        },
-        switchMap:function(id){
-            mapFactory.switchMap(id);
+        if(mapFactory.activeMap != null){
+            mapFactory.activeMap.update();
         }
-    }
+    };
 })();

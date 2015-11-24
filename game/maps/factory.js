@@ -8,6 +8,8 @@
         this.spritesheet = spritesheet;
         this.stage = stage;
 
+        this.activeMap = null;
+
         this.init();
 
         return this;
@@ -38,6 +40,7 @@
     };
 
     MapFactory.prototype.switchMap = function(id){
+        this.activeMap = this.maps[id];
         console.log(this.maps[id]);
         this.stage.addChild(this.maps[id].viewport);
     };

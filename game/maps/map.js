@@ -21,8 +21,18 @@
 
     Map.prototype.init = function(){
         this.setupLayers();
+        this.setupPlayer();
         this.dispatchEvent(Map.events.MAP_LOADED);
     };
+
+    Map.prototype.setupPlayer = function(){
+        this.player = new Player(90,90);
+        this.viewport.addChild(this.player);
+    };
+
+    Map.prototype.update = function(){
+        this.player.update();
+    }
 
     Map.prototype.setupLayers = function(){
         this.layers = {};
@@ -36,7 +46,32 @@
 
             if (layerData.type == 'tilelayer'){
                 this.layers[layerData.name] = new Map.Layer(layerData, this.mapData.tilewidth, this.mapData.tileheight, this.spritesheet,this.viewport);
+            }else if(layerData.type == 'objectgroup' && layerData.properties.collisions == 'true'){
+                this.layers[layerData.name] = new Map.CollisionLayer(layerData);
             }
+        }
+    };
+
+    Map.CollisionLayer = function(layerData){
+
+        this.layerData = layerData;
+
+        var objectIndex,
+            object,
+            cell;
+
+        for ( objectIndex = 0; objectIndex < this.layerData.objects.length; objectIndex++) {
+
+            object = this.layerData.objects[objectIndex];
+            var collisionFixture = new Box2D.Dynamics.b2FixtureDef;
+            collisionFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape;
+            collisionFixture.shape.SetAsBox(object.width / World.SCALE, (object.height/2) / World.SCALE);
+            var collisionBodyDef = new Box2D.Dynamics.b2BodyDef;
+            collisionBodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
+            collisionBodyDef.position.x = object.x / World.SCALE;
+            collisionBodyDef.position.y = (object.y + object.height/2) / World.SCALE;
+            var collision = game.world.world.CreateBody(collisionBodyDef);
+            collision.CreateFixture(collisionFixture);
         }
     };
 

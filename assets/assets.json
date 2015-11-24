@@ -1,0 +1,24 @@
+{
+  "manifest":[
+    {
+      "id":"collisions",
+      "src":"assets/maps/collisions.json",
+      "tag":"map"
+    },
+    {
+      "id":"basicTileSheet",
+      "src":"assets/tiles/basicTileSheet.png",
+      "tag":"tile"
+    },
+    {
+      "id":"player-idle",
+      "src":"assets/chars/oldman-idle.png",
+      "tag":"tile"
+    },
+    {
+      "id":"player-walk",
+      "src":"assets/chars/oldman-walk.png",
+      "tag":"tile"
+    }
+  ]
+}
