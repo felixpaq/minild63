@@ -13,27 +13,27 @@
 		this.on("removed",this.destroy);
 		this.elementsSetup();
 		this.addFocusListener();
-	}
+	};
 	
 	p.elementsSetup = function()
 	{
 		
-	}
+	};
 	
 	p.addFocusListener = function()
 	{
 		
-	}
+	};
 	
 	p.removeFocusListener = function()
 	{
 		
-	}
+	};
 	
 	p.destroy = function()
 	{ 
 		this.removeFocusListener();
-	}
+	};
 	
 	window.UIBase = createjs.promote(UIBase, "Container");
 

@@ -32,7 +32,7 @@
 
     Map.prototype.update = function(){
         this.player.update();
-    }
+    };
 
     Map.prototype.setupLayers = function(){
         this.layers = {};
@@ -97,6 +97,8 @@
             }
         }
     };
+
+
 
     function extend(out) {
         out = out || {};

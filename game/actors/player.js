@@ -30,8 +30,6 @@
         this.snapToPixel = true;
         this.mouseEnabled = false;
 
-        console.log(this);
-
         createBody.call(this);
     }
 

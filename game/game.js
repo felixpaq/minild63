@@ -12,7 +12,16 @@
 
     var Game = window.Game = function(){
         this.init();
+        this.currentState = Game.MAIN_MENU;
+        this.shouldChangeState = true;
         return this;
+    };
+
+    Game.states = {
+        MAIN_MENU:"mainMenu",
+        INTRO:"intro",
+        GAME:"game",
+        ENDING:"ending"
     };
 
 	Game.prototype.isMiniGameBridgeReady = false;
@@ -22,7 +31,6 @@
         stage = new createjs.Stage("canvas");
         w = stage.canvas.width;
         h = stage.canvas.height;
-
 
         manifest = [
             {src: "assets/assets.json", type:"manifest"}
@@ -41,7 +49,12 @@
 	Game.prototype.onMiniGameBridgeReady = function(event)
 	{
 		this.isMiniGameBridgeReady = true
-	}
+	};
+
+    Game.prototype.changeState = function(state){
+        this.currentState = state;
+        this.shouldChangeState = true;
+    };
 	
     Game.prototype.handleComplete = function(){
         var loadedItemIdx = 0,
@@ -92,5 +105,18 @@
         if(mapFactory.activeMap != null){
             mapFactory.activeMap.update();
         }
+
+        if(this.shouldChangeState){
+            this.updateState();
+        }
+    };
+
+    Game.prototype.updateState = function(){
+        switch (this.currentState){
+            default:
+                console.log("ma graine est le state : ",this.currentState);
+                break;
+        }
+        this.shouldChangeState = false;
     };
 })();
