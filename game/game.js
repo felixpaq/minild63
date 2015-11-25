@@ -101,7 +101,7 @@
     Game.prototype.tick = function(event) {
         stage.update(event);
         this.world.update();
-
+		this.miniGamBridge.update();
         if(mapFactory.activeMap != null){
             mapFactory.activeMap.update();
         }

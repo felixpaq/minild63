@@ -23,6 +23,11 @@
 		
 	}
 	
+	p.update = function()
+	{
+		
+	}
+	
 	p.addFocusListener = function()
 	{
 		

@@ -35,7 +35,6 @@
 	
 	p._currenMiniGame;
 	p.isTweakerLoaded;
-	
 	p.isAssetAtlasLoaded;
 	
 
@@ -151,19 +150,28 @@
 		}
 	}
 	
+	p.update = function()
+	{
+		
+		if(this._currenMiniGame)
+		{
+			this._currenMiniGame.update();
+		}
+	}
+	
 	p.openMiniGame = function(miniGameID)
 	{
 		switch(miniGameID)
 		{
 			case "mini_game_0":
-				p._currenMiniGame = new RemoteMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
+				this._currenMiniGame = new GlassesMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
 		}
 		// console.log(p._currenMiniGame);
 		// p._currenMiniGame.on("test",function(){console.log("should work")});
-		p._currenMiniGame.on("success",p.onGameEnd.bind(this));
-		p._currenMiniGame.on("fail",p.onGameEnd.bind(this));
-		p.stageRef.addChild(p._currenMiniGame);
+		this._currenMiniGame.on("success",p.onGameEnd.bind(this));
+		this._currenMiniGame.on("fail",p.onGameEnd.bind(this));
+		p.stageRef.addChild(this._currenMiniGame);
 		// p._currenMiniGame.test();
 	}
 	p.onGameEnd = function(event)
@@ -177,8 +185,8 @@
 				console.log("fail");
 			break;
 		}
-		p.stageRef.removeChild(p._currenMiniGame);
-		
+		p.stageRef.removeChild(this._currenMiniGame);
+		this._currenMiniGame = null;
 	}
 	
 	window.MiniGameBridge = createjs.promote(MiniGameBridge, "Container");

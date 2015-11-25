@@ -1,3 +1,7 @@
 {
-	"la_vitesse_de_la_vie_en_general":0.1
+	"stamina_cost":10,
+	"stamina_regen":5,
+	"stamina_total":50,
+	"time_to_do_the_game":10000,
+	"nb_piece_of_trash":25
 }
