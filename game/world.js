@@ -103,17 +103,18 @@
     };
 
     World.prototype.translate = function(x,y){
-        var _body = this.world.GetBodyList();
+        var _body = this.world.GetBodyList(),
+            _origPos = {},
+            _newPos = {},
+            _hasPos = false;
 
         while(_body){
-            var _bodyVec2 = new b2Vec2(_body.GetPosition().x  + -x /World.SCALE,_body.GetPosition().y+ -y /World.SCALE);
-
-            console.log(_body.GetPosition(),_bodyVec2);
-
-            //console.log(new b2Vec2(_body.GetPosition().x + _offsetX,_body.GetPosition().y + _offsetY));
-            if(_body.GetUserData() == null){
-                //_body.SetPosition(_bodyVec2);
+            if(_body.GetUserData().origPos){
+                _origPos = _body.GetUserData().origPos || new b2Vec2(0,0);
+                _newPos = new b2Vec2(_origPos.x  + -x /World.SCALE,_origPos.y+ -y /World.SCALE);
+                _body.SetPosition(_newPos);
             }
+
             _body = _body.GetNext();
         }
     };

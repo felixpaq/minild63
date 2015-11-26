@@ -85,7 +85,10 @@
             collisionBodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
             collisionBodyDef.position.x = object.x / World.SCALE;
             collisionBodyDef.position.y = (object.y + object.height/2) / World.SCALE;
+
             var collision = world.world.CreateBody(collisionBodyDef);
+
+            collision.SetUserData({origPos:collisionBodyDef.position});
             collision.CreateFixture(collisionFixture);
         }
     };

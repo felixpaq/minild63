@@ -67,7 +67,7 @@
         this.body.CreateFixture(playerFixture);
 
         this.actor = new Actor(this.body, this,true,this.map.world);
-        this.body.SetUserData(this.actor);  // set the actor as user data of the body so we can use it later: body.GetUserData()
+        this.body.SetUserData({actor:this.actor});  // set the actor as user data of the body so we can use it later: body.GetUserData()
 
         console.log(this.map);
 
