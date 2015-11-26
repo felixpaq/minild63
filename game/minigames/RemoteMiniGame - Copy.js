@@ -14,9 +14,8 @@
 	// p._currentGaugeValue;
 	// p._graphicsTest;
 	p.stageRef;
-	p._staminaBar;
+	// p._gaugeBar;
 	
-	p.tf_time_left;
 	p._arrayOfTrash = [];
 	p._currentStamina;
 	p._glasses;
@@ -24,28 +23,31 @@
 	p._isDragging = false;
 	p._bg;
 	
-	p._timeAtStart;	
-	p._timeLeft;	
+	p._timeAtStart;
+	
+	
+	
 	p.init = function()
 	{
 		this.MiniGameBase_init();
 		this._timeAtStart = new Date().getTime();
 	}
 	
+	
 	p.elementsSetup = function()
 	{
-		this.MiniGameBase_elementsSetup();
 		this._currentStamina = this._tweakers.stamina_total;
+		this.MiniGameBase_elementsSetup();
 		console.log(this._tweakers.stamina_cost_pick_up);
 		console.log(this._tweakers.stamina_cost_pick_drag);
 		console.log(this._tweakers.stamina_regen);
 		console.log(this._tweakers.stamina_total);
 		console.log(this._tweakers.time_to_do_the_game);
 		console.log(this._tweakers.nb_piece_of_trash);
-		
 		var tempShape;
 		this._bg = new createjs.Shape();
 		this._bg.graphics.beginFill("#000000").drawRect(0, 0, 960,680);
+		
 		this.addChild(this._bg);
 		
 		this._glasses = new createjs.Shape();
@@ -63,16 +65,6 @@
 			this.addChild(tempShape);
 			this._arrayOfTrash.push(tempShape);
 		}
-		
-		this._staminaBar = new ProgressBar(500,20);
-		this._staminaBar.x = 230;
-		this._staminaBar.y = 640;
-		this.addChild(this._staminaBar);
-		
-		this._staminaBar.setProgress(this._currentStamina/this._tweakers.stamina_total);
-		
-		this.tf_time_left = new createjs.Text(this._currentStamina, "20px Arial", "#ffffff");
-		this.addChild(this.tf_time_left);
 	}
 	
 	p.addFocusListener = function()
@@ -86,7 +78,7 @@
 	p.update = function()
 	{
 		this.MiniGameBase_update();
-		// console.log(this._currentStamina);
+		console.log(this._currentStamina);
 		
 		if(this._currentStamina<this._tweakers.stamina_total&&!this._isDragging)
 		{
@@ -96,14 +88,13 @@
 				this._currentStamina = this._tweakers.stamina_total;
 			}
 		}
-		this._staminaBar.setProgress(this._currentStamina/this._tweakers.stamina_total);
+		
 		if(this._currentStamina<=0)
 		{
 			this.dispatchEvent("fail");
 		}
-		this._timeLeft = new Date().getTime()-this._timeAtStart;
-		this.tf_time_left.text = Math.round((this._tweakers.time_to_do_the_game-this._timeLeft)/100);
-		if(this._timeLeft >  this._tweakers.time_to_do_the_game)
+		
+		if(new Date().getTime()-this._timeAtStart >  this._tweakers.time_to_do_the_game)
 		{
 			this.dispatchEvent("fail");
 		}
