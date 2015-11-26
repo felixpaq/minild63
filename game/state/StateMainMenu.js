@@ -14,12 +14,12 @@
 
     StateMainMenu.prototype.init = function(){
         this.viewport.addChild(new createjs.Text("pRESS SPACE TO STAAAAAAAAART THE ADVENTURE OF YOUR LIFE", "20px Arial", "#ff7700"));
-    }
+    };
 
     StateMainMenu.prototype.update = function(){
         if(Controls.KEYB_BUTTON[Controls.SPACE]){
             console.log("switching to game");
             game.changeState(game.states.GAME);
         }
-    }
+    };
 }());

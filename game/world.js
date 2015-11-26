@@ -22,9 +22,10 @@
     debugContext;
 
 
-    var World = window.World = function(debug){
+    var World = window.World = function(map,debug){
         this.actors = [];
         this.bodies = [];
+        this.map = map;
         this.debug = debug || false;
         this.init();
 
@@ -82,6 +83,15 @@
             // update active actors
             for(var i=0, l=this.actors.length; i<l; i++) {
                 this.actors[i].update();
+            }
+
+            var _body = this.world.GetBodyList(),
+                _offsetX = -this.map.viewport.x,
+                _offsetY = -this.map.viewport.y;
+            while(_body){
+
+                _body.SetPosition(new b2Vec2(_body.GetPosition().x + _offsetX,_body.GetPosition().y + _offsetY));
+                _body = _body.GetNext();
             }
 
             this.world.Step(World.TIMESTEP, 10, 10);

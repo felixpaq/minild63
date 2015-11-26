@@ -4,12 +4,9 @@
 
     var Map = window.Map = function(mapData,spritesheet){
 
-        createjs.EventDispatcher.initialize(Map.prototype);
-
         this.mapData = mapData;
         this.spritesheet = spritesheet;
         this.viewport = new createjs.Container();
-        this.world = new World();
 
         this.active = false;
 
@@ -23,9 +20,10 @@
     Map.prototype.init = function(active){
 
         this.active = active || this.active;
+        this.world = new World(this,true);
         this.setupLayers();
         this.setupPlayer();
-        this.dispatchEvent(Map.events.MAP_LOADED);
+        this.camera = new Camera(this);
     };
 
     Map.prototype.setupPlayer = function(){
@@ -37,6 +35,7 @@
         if(this.active){
             this.player.update();
             this.world.update();
+            this.camera.update();
         }
     };
 
@@ -49,7 +48,6 @@
 
         for (layerIndex = 0; layerIndex < layerLength; layerIndex++) {
             layerData = this.mapData.layers[layerIndex];
-                console.log(layerData);
             if (layerData.type == 'tilelayer'){
                 this.layers[layerData.name] = new Map.Layer(layerData, this.mapData.tilewidth, this.mapData.tileheight, this.spritesheet,this.viewport);
             }else if(layerData.type == 'objectgroup'){
