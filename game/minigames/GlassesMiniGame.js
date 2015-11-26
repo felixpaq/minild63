@@ -2,6 +2,7 @@
 	function GlassesMiniGame(tweakers,assetsAtlas,stageRef)
 	{
 		this.stageRef = stageRef;
+		console.log(this.stageRef);
         this.MiniGameBase_constructor(tweakers,assetsAtlas);
 		createjs.EventDispatcher.initialize(GlassesMiniGame.prototype);
 		createjs.EventDispatcher.initialize(GlassesMiniGame);
@@ -15,7 +16,9 @@
 	p.stageRef;
 	// p._gaugeBar;
 	p._arrayOfTrash = [];
+	p._currentStamina;
 	p._glasses;
+	p._currentTrashDragging;
 	p._bg;
 	
 	p._timeAtStart;
@@ -31,6 +34,7 @@
 	
 	p.elementsSetup = function()
 	{
+		this._currentStamina = this._tweakers.stamina_total;
 		this.MiniGameBase_elementsSetup();
 		console.log(this._tweakers.stamina_cost);
 		console.log(this._tweakers.stamina_regen);
@@ -54,7 +58,18 @@
 			tempShape.graphics.beginFill("#ff0000").drawRect(0, 0, 100, 100);
 			tempShape.x = Math.random()*300;
 			tempShape.y = Math.random()*200;
-			tempShape.on("click",this.onClickTrash.bind(this));
+			// console.log(tempShape);
+			// tempShape.on("click",this.onClickTrash.bind(this));
+			// tempShape.addEventListener("click",this.onMouseDownTrash.bind(this));
+			tempShape.addEventListener("mousedown",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("dblclick",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("pressmove",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("pressup",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("mouseover",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("mouseout",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("rollover",this.onMouseDownTrash.bind(this));
+			// tempShape.addEventListener("rollout.",this.onMouseDownTrash.bind(this));
+			
 			this.addChild(tempShape);
 			this._arrayOfTrash.push(tempShape);
 		}
@@ -73,26 +88,50 @@
 		this.MiniGameBase_update();
 		if(new Date().getTime()-this._timeAtStart >  this._tweakers.time_to_do_the_game)
 		{
-			this.dispatchEvent("fail");
+			// this.dispatchEvent("fail");
 		}
 	}
 	
-	p.onClickTrash = function(event)
+	p.onMouseDownTrash = function(event)
 	{
-		event.target.visible = false;
+		// console.log(event.type);
+		// console.log("YOOOOOOOOOOOOOOOOOOOOO");
+		// console.log(this);
+		// console.log(this.stageRef);
+		this._currentTrashDragging = event.target;
+		this.stageRef.addEventListener("pressup",this.onMouseUpStage.bind(this));
+		this.stageRef.addEventListener("pressmove",this.onMouseMoveStage.bind(this));
+		// console.log(event.target);
+	}
+	
+	p.onMouseMoveStage = function(event)
+	{
+		// console.log(this._currentTrashDragging);
+		this.stageRef.update();
+		this._currentTrashDragging.x = event.stageX-50;
+		this._currentTrashDragging.y = event.stageY-50;
+	}
+	
+	p.onMouseUpStage = function(event)
+	{
+		// console.log("mouseUp");
+		this.stageRef.removeEventListener("pressup",this.onMouseUpStage.bind(this));
+		this.stageRef.removeEventListener("pressmove",this.onMouseMoveStage.bind(this));
+		this._currentTrashDragging = null;
+		// event.target.visible = false;
 		var isStillIntersecting = false;
 		var rectOfTrash;
 		var rectOfGlasses = new createjs.Rectangle(this._glasses.x,this._glasses.y,100,100);;
 		for(var i = 0;i<this._arrayOfTrash.length;i++)
 		{
-			if(this._arrayOfTrash[i].visible)
-			{
+			// if(this._arrayOfTrash[i].visible)
+			// {
 				rectOfTrash = new createjs.Rectangle(this._arrayOfTrash[i].x,this._arrayOfTrash[i].y,100,100);
 				if(rectOfGlasses.intersects(rectOfTrash))
 				{
 					isStillIntersecting = true;
 				}
-			}
+			// }
 		}
 		
 		if(!isStillIntersecting)
@@ -100,6 +139,29 @@
 			this._glasses.addEventListener("click",this.onHandleMouse.bind(this));
 		}
 	}
+	// p.onClickTrash = function(event)
+	// {
+		// event.target.visible = false;
+		// var isStillIntersecting = false;
+		// var rectOfTrash;
+		// var rectOfGlasses = new createjs.Rectangle(this._glasses.x,this._glasses.y,100,100);;
+		// for(var i = 0;i<this._arrayOfTrash.length;i++)
+		// {
+			// if(this._arrayOfTrash[i].visible)
+			// {
+				// rectOfTrash = new createjs.Rectangle(this._arrayOfTrash[i].x,this._arrayOfTrash[i].y,100,100);
+				// if(rectOfGlasses.intersects(rectOfTrash))
+				// {
+					// isStillIntersecting = true;
+				// }
+			// }
+		// }
+		
+		// if(!isStillIntersecting)
+		// {
+			// this._glasses.addEventListener("click",this.onHandleMouse.bind(this));
+		// }
+	// }
 	
 	p.onHandleMouse = function(event)
 	{
