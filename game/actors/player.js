@@ -74,5 +74,9 @@
         this.map.world.bodies.push(this.body);
 
     }
+
+
+    createjs.EventDispatcher.initialize(p);
+
     window.Player = createjs.promote(Player, "Sprite");
 }());

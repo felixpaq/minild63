@@ -28,9 +28,6 @@
             mapData = this.mapsData[mapId];
 
             map = new Map(mapData,this.spritesheet);
-            map.on(Map.events.MAP_LOADED,function(){
-                console.log(this,"maploaded");
-            });
 
             map.init(false);
 
@@ -51,7 +48,6 @@
 
     StateGame.prototype.switchMap = function(id){
         this.activeMap = this.maps[id];
-        console.log(this.maps[id]);
         this.viewport = this.maps[id].viewport;
     };
 
