@@ -10,18 +10,21 @@
         tiles = [],
         spritesheet;
 
-    var Game = window.Game = function(){
-        this.init();
-        this.currentState = Game.MAIN_MENU;
-        this.shouldChangeState = true;
-        return this;
+    var isActive = true;
+
+    window.onfocus = function () {
+        isActive = true;
     };
 
-    Game.states = {
-        MAIN_MENU:"mainMenu",
-        INTRO:"intro",
-        GAME:"game",
-        ENDING:"ending"
+    window.onblur = function () {
+        isActive = false;
+    };
+
+    var Game = window.Game = function(){
+        this.init();
+        Controls.getInstance().addEvents();
+
+        return this;
     };
 
 	Game.prototype.isMiniGameBridgeReady = false;
@@ -52,8 +55,12 @@
 	};
 
     Game.prototype.changeState = function(state){
+        if(this.currentState != null && this.currentState != undefined){
+            stage.removeChild(this.currentState.viewport);
+        }
+
         this.currentState = state;
-        this.shouldChangeState = true;
+        stage.addChild(this.currentState.viewport);
     };
 	
     Game.prototype.handleComplete = function(){
@@ -86,12 +93,18 @@
                 height : 32
             }
         });
-        console.log(this);
-        Controls.getInstance().addEvents();
-        this.world = new World(true);
-        mapFactory = new MapFactory(maps,spritesheet,stage);
 
-        mapFactory.switchMap("collisions");
+        this.states = {
+            MAIN_MENU:new StateMainMenu(stage),
+            INTRO:"intro",
+            GAME:new StateGame(maps,spritesheet,stage),
+            ENDING:"ending"
+        };
+
+        this.changeState(this.states.MAIN_MENU);
+
+
+        console.log(this);
 
         createjs.Ticker.framerate = 24;
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -99,24 +112,10 @@
     };
 
     Game.prototype.tick = function(event) {
-        stage.update(event);
-        this.world.update();
-		this.miniGamBridge.update();
-        if(mapFactory.activeMap != null){
-            mapFactory.activeMap.update();
+        if(isActive){
+            stage.update(event);
+            this.currentState.update();
+            this.miniGamBridge.update();
         }
-
-        if(this.shouldChangeState){
-            this.updateState();
-        }
-    };
-
-    Game.prototype.updateState = function(){
-        switch (this.currentState){
-            default:
-                console.log("ma graine est le state : ",this.currentState);
-                break;
-        }
-        this.shouldChangeState = false;
     };
 })();

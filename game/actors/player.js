@@ -3,7 +3,7 @@
  */
 (function(){
 
-    function Player(x,y){
+    function Player(x,y,map){
         this.spritesheet = new createjs.SpriteSheet({
             images : [
                 game.loader.getResult("player-idle"),
@@ -24,6 +24,7 @@
 
         this.x = x;
         this.y = y;
+        this.map = map;
 
         this.regX = 32/2;   // important to set origin point to center of your bitmap
         this.regY = 72/2;
@@ -62,12 +63,15 @@
 
         this.scaleX = -1;
 
-        this.body = game.world.world.CreateBody(playerBodyDef);
+        this.body = this.map.world.world.CreateBody(playerBodyDef);
         this.body.CreateFixture(playerFixture);
 
-        this.actor = new Actor(this.body, this,true);
+        this.actor = new Actor(this.body, this,true,this.map.world);
         this.body.SetUserData(this.actor);  // set the actor as user data of the body so we can use it later: body.GetUserData()
-        game.world.bodies.push(this.body);
+
+        console.log(this.map);
+
+        this.map.world.bodies.push(this.body);
 
     }
     window.Player = createjs.promote(Player, "Sprite");

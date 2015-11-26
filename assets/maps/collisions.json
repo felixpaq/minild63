@@ -202,12 +202,39 @@
          "width":50,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":50,
+         "name":"ascnceusrs",
+         "objects":[
+                {
+                 "height":96,
+                 "id":16,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":576,
+                 "y":96
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":50,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":15,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "properties":
     {
-
+     "start":"true"
     },
  "renderorder":"right-down",
  "tileheight":32,

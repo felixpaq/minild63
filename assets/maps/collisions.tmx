@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="15">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="21">
+ <properties>
+  <property name="start" value="true"/>
+ </properties>
  <tileset firstgid="1" name="basicTileSheet" tilewidth="32" tileheight="32" tilecount="7">
   <image source="../tiles/basicTileSheet.png" width="224" height="32"/>
  </tileset>
@@ -126,5 +129,8 @@
   <object id="12" x="1152" y="32" width="32" height="160"/>
   <object id="13" x="1152" y="224" width="32" height="64"/>
   <object id="14" x="0" y="224" width="32" height="64"/>
+ </objectgroup>
+ <objectgroup name="ascnceusrs">
+  <object id="16" x="576" y="96" width="64" height="96"/>
  </objectgroup>
 </map>

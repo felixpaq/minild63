@@ -7,10 +7,16 @@
         The life of Misteur Lachance
     </title>
     <style>
+        body{
+            height:100%;
+            max-height:100%;
+        }
         .wrapper{
             width:960px;
             margin:0 auto;
             position:relative;
+        }
+        .game{
             height:680px;
         }
         .hidden{
@@ -39,7 +45,8 @@
     <script src="game/ui/GaugeBar.js"></script>
     <script src="game/actors/actor.js"></script>
     <script src="game/actors/player.js"></script>
-    <script src="game/maps/factory.js"></script>
+    <script src="game/state/StateGame.js"></script>
+    <script src="game/state/StateMainMenu.js"></script>
     <script src="game/maps/map.js"></script>
     <script src="game/world.js"></script>
     <script src="game/game.js"></script>
@@ -47,7 +54,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper game">
         <canvas id="canvas" width="960px" height="680px"></canvas>
         <canvas id="debugCanvas" width="960px" height="680px"></canvas>
 

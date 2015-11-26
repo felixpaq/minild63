@@ -13,6 +13,7 @@ Controls.UP = 38;
 Controls.DOWN = 40;
 Controls.LEFT = 37;
 Controls.RIGHT = 39;
+Controls.SPACE = 32;
 Controls.W = 87;
 Controls.A = 65;
 Controls.S = 83;

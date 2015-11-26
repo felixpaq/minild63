@@ -9,8 +9,9 @@
         this.mapData = mapData;
         this.spritesheet = spritesheet;
         this.viewport = new createjs.Container();
+        this.world = new World();
 
-        //this.init();
+        this.active = false;
 
         return this;
     };
@@ -19,19 +20,24 @@
         MAP_LOADED:"mapLoaded"
     };
 
-    Map.prototype.init = function(){
+    Map.prototype.init = function(active){
+
+        this.active = active || this.active;
         this.setupLayers();
         this.setupPlayer();
         this.dispatchEvent(Map.events.MAP_LOADED);
     };
 
     Map.prototype.setupPlayer = function(){
-        this.player = new Player(90,90);
+        this.player = new Player(90,90,this);
         this.viewport.addChild(this.player);
     };
 
     Map.prototype.update = function(){
-        this.player.update();
+        if(this.active){
+            this.player.update();
+            this.world.update();
+        }
     };
 
     Map.prototype.setupLayers = function(){
@@ -43,16 +49,23 @@
 
         for (layerIndex = 0; layerIndex < layerLength; layerIndex++) {
             layerData = this.mapData.layers[layerIndex];
-
+                console.log(layerData);
             if (layerData.type == 'tilelayer'){
                 this.layers[layerData.name] = new Map.Layer(layerData, this.mapData.tilewidth, this.mapData.tileheight, this.spritesheet,this.viewport);
-            }else if(layerData.type == 'objectgroup' && layerData.properties.collisions == 'true'){
-                this.layers[layerData.name] = new Map.CollisionLayer(layerData);
+            }else if(layerData.type == 'objectgroup'){
+                if(layerData.properties){
+                    if(layerData.properties.collisions == "true"){
+
+                        this.layers[layerData.name] = new Map.CollisionLayer(layerData,this.world);
+                    }
+
+                }
+
             }
         }
     };
 
-    Map.CollisionLayer = function(layerData){
+    Map.CollisionLayer = function(layerData,world){
 
         this.layerData = layerData;
 
@@ -70,7 +83,7 @@
             collisionBodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
             collisionBodyDef.position.x = object.x / World.SCALE;
             collisionBodyDef.position.y = (object.y + object.height/2) / World.SCALE;
-            var collision = game.world.world.CreateBody(collisionBodyDef);
+            var collision = world.world.CreateBody(collisionBodyDef);
             collision.CreateFixture(collisionFixture);
         }
     };
@@ -78,6 +91,7 @@
     Map.Layer = function(layerData, tilewidth, tileheight, spritesheet, viewport){
 
         this.layerData = layerData;
+        this.viewport = new createjs.Container();
 
         var layerY,
             layerX,
@@ -93,9 +107,14 @@
                 cell.y = layerY * tileheight;
 
                 // add bitmap to stage
-                viewport.addChild(cell);
+                this.viewport.addChild(cell);
             }
         }
+
+        //this.viewport.cache(0,0,this.viewport.width,this.viewport.height);
+        this.viewport.cache(0,0,this.layerData.width*tilewidth,this.layerData.height*tileheight)
+
+        viewport.addChild(this.viewport);
     };
 
 

@@ -2,14 +2,14 @@
  * Created by Félix on 2015-11-22.
  */
 (function(){
-    var Actor = window.Actor = function(body,skin,controllable){
+    var Actor = window.Actor = function(body,skin,controllable,world){
 
         this.body = body;
         this.skin = skin;
         this.controllable = controllable || false;
         this.moving = false;
 
-        game.world.actors.push(this);
+        world.actors.push(this);
         console.log(this.body);
     };
 
