@@ -34,7 +34,7 @@
             if(mapData.properties.start == "true"){
                 this.activeMap = map;
                 this.viewport = map.viewport;
-                map.active = true;
+                map.setActive(true);
             }
 
             this.maps[mapId] = map;

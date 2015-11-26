@@ -25,11 +25,13 @@
     };
 
     Camera.prototype.moveTo = function(x,y){
-        if(x > this.minX && x < this.maxX){
+        console.log(x,y);
+        if(x > this.minX && x < this.maxX || y > this.minY && y < this.maxY){
             this.map.viewport.x = -x;
-        }
-        if(y > this.minY && y < this.maxY){
             this.map.viewport.y = -y;
+
+            this.map.world.translate((x>0?x:0),(y>0?y:0));
         }
+
     };
 }());

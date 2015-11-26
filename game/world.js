@@ -71,7 +71,7 @@
         fixedTimestepAccumulator += dt;
         lastTimestamp = now;
 
-        while(fixedTimestepAccumulator >= World.STEP) {
+        while(fixedTimestepAccumulator >= World.STEP && game.isActive) {
             // remove bodies before world timestep
             /*for(var i=0, l=bodiesToRemove.length; i<l; i++) {
                 removeActor(bodiesToRemove[i].GetUserData());
@@ -83,15 +83,6 @@
             // update active actors
             for(var i=0, l=this.actors.length; i<l; i++) {
                 this.actors[i].update();
-            }
-
-            var _body = this.world.GetBodyList(),
-                _offsetX = -this.map.viewport.x,
-                _offsetY = -this.map.viewport.y;
-            while(_body){
-
-                _body.SetPosition(new b2Vec2(_body.GetPosition().x + _offsetX,_body.GetPosition().y + _offsetY));
-                _body = _body.GetNext();
             }
 
             this.world.Step(World.TIMESTEP, 10, 10);
@@ -108,6 +99,22 @@
                 bodiesToRemove.push(this.bodies[0]);
                 this.bodies.splice(0,1);
             }*/
+        }
+    };
+
+    World.prototype.translate = function(x,y){
+        var _body = this.world.GetBodyList();
+
+        while(_body){
+            var _bodyVec2 = new b2Vec2(_body.GetPosition().x  + -x /World.SCALE,_body.GetPosition().y+ -y /World.SCALE);
+
+            console.log(_body.GetPosition(),_bodyVec2);
+
+            //console.log(new b2Vec2(_body.GetPosition().x + _offsetX,_body.GetPosition().y + _offsetY));
+            if(_body.GetUserData() == null){
+                //_body.SetPosition(_bodyVec2);
+            }
+            _body = _body.GetNext();
         }
     };
 

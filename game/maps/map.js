@@ -17,6 +17,10 @@
         MAP_LOADED:"mapLoaded"
     };
 
+    Map.prototype.setActive = function(active){
+        this.active = active;
+    }
+
     Map.prototype.init = function(active){
 
         this.active = active || this.active;
