@@ -2,14 +2,9 @@
 (function(window) 
 {
 	var MiniGameBridge = window.MiniGameBridge = function($stage){
-	// function MiniGameBridge($stage){
 		p.stageRef = $stage;	
 		createjs.EventDispatcher.initialize(MiniGameBridge.prototype);
 		this.Container_constructor();
-		// createjs.EventDispatcher.initialize(MiniGameBridge);
-		p.that = this;
-		// this.setGraphics();
-		// return this;
 	}
 	
 	var p = createjs.extend(MiniGameBridge, createjs.Container);
@@ -17,14 +12,11 @@
 	MiniGameBridge.READY = "ready";
 	
 	p.stageRef;
-	p.that;
-	
 	p.miniGameAssetAtlas = {};
 	p.miniGameTweakerAtlas = {};
 	p.miniGameInfoList = {};
 	
 	p.manifestLoader;
-	
 	p.manifestAssets = [];
 	p.manifestLoaderAssets;
 	p.miniGameAsseLoadingList = [];
@@ -41,9 +33,6 @@
 	
 	MiniGameBridge.prototype.loadMiniGamInfo = function()
 	{
-		// p.dispatchEvent(new createjs.Event("tabarnak"));
-		// console.log(p);
-		// console.log(this);
 		var manifest = [
 			{src: "./data/minigame/minigames.json", id: "minigames"}
 		];
@@ -58,8 +47,6 @@
 	
 	p.loadMiniGames = function()
 	{
-		// console.log(p);
-		console.log(this);
 		p.miniGameInfoList = p.manifestLoader.getResult("minigames");
 		for(var miniGameId in p.miniGameInfoList)
 		{
@@ -120,7 +107,6 @@
 	
 	p.onCompleteminiGameAssetLoad = function(event)
 	{
-		console.log(this)
 		p.isAssetAtlasLoaded = true;
 		this.checkIfAllLoaded();
 	}
@@ -135,18 +121,7 @@
 	{
 		if(p.isTweakerLoaded&&p.isAssetAtlasLoaded)
 		{
-			console.log(this);
-			// var event = new createjs.Event("test");
-			// p.dispatchEvent(event);
-			// this.dispatchEvent(event);
-			// p.dispatchEvent("test");
-			// console.log(p);
-			// console.log(this);
 			this.dispatchEvent(MiniGameBridge.READY);
-			// this.dispatchEvent("test");
-			// var event = new createjs.Event("tabarnak");
-			// globalDispatcher.dispatchEvent(event);
-			
 		}
 	}
 	
@@ -161,19 +136,23 @@
 	
 	p.openMiniGame = function(miniGameID)
 	{
+		if(this._currenMiniGame)
+		{
+			this.destroyGame();
+		}
 		switch(miniGameID)
 		{
 			case "mini_game_0":
 				this._currenMiniGame = new GlassesMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
 		}
-		// console.log(p._currenMiniGame);
-		// p._currenMiniGame.on("test",function(){console.log("should work")});
 		this._currenMiniGame.on("success",p.onGameEnd.bind(this));
 		this._currenMiniGame.on("fail",p.onGameEnd.bind(this));
 		p.stageRef.addChild(this._currenMiniGame);
-		// p._currenMiniGame.test();
 	}
+	
+	
+	
 	p.onGameEnd = function(event)
 	{
 		switch(event.type)
@@ -185,7 +164,13 @@
 				console.log("fail");
 			break;
 		}
+		this.destroyGame();
+	}
+	
+	p.destroyGame = function()
+	{
 		p.stageRef.removeChild(this._currenMiniGame);
+		this._currenMiniGame.removeAllEventListeners();
 		this._currenMiniGame = null;
 	}
 	

@@ -1,8 +1,8 @@
 {
-	"stamina_cost_pick_up":10,
-	"stamina_cost_pick_drag":2,
-	"stamina_regen":5,
-	"stamina_total":100,
+	"stamina_cost_pick_up":5,
+	"stamina_cost_pick_drag":1,
+	"stamina_regen":3,
+	"stamina_total":150,
 	"time_to_do_the_game":20000,
-	"nb_piece_of_trash":25
+	"nb_piece_of_trash":5
 }

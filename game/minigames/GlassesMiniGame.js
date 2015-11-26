@@ -2,17 +2,12 @@
 	function GlassesMiniGame(tweakers,assetsAtlas,stageRef)
 	{
 		this.stageRef = stageRef;
-		console.log(this.stageRef);
         this.MiniGameBase_constructor(tweakers,assetsAtlas);
 		createjs.EventDispatcher.initialize(GlassesMiniGame.prototype);
 		createjs.EventDispatcher.initialize(GlassesMiniGame);
-		
 	}
 	
 	var p = createjs.extend(GlassesMiniGame, MiniGameBase);
-	// p._currentGaugeIncrement;
-	// p._currentGaugeValue;
-	// p._graphicsTest;
 	p.stageRef;
 	p._staminaBar;
 	
@@ -21,6 +16,10 @@
 	p._currentStamina;
 	p._glasses;
 	p._currentTrashDragging;
+	p._isDragging = false;
+	p._baseOffsetX;
+	
+	p._baseOffsetY;
 	p._isDragging = false;
 	p._bg;
 	
@@ -36,13 +35,12 @@
 	{
 		this.MiniGameBase_elementsSetup();
 		this._currentStamina = this._tweakers.stamina_total;
-		console.log(this._tweakers.stamina_cost_pick_up);
-		console.log(this._tweakers.stamina_cost_pick_drag);
-		console.log(this._tweakers.stamina_regen);
-		console.log(this._tweakers.stamina_total);
-		console.log(this._tweakers.time_to_do_the_game);
-		console.log(this._tweakers.nb_piece_of_trash);
-		
+		// console.log(this._tweakers.stamina_cost_pick_up);
+		// console.log(this._tweakers.stamina_cost_pick_drag);
+		// console.log(this._tweakers.stamina_regen);
+		// console.log(this._tweakers.stamina_total);
+		// console.log(this._tweakers.time_to_do_the_game);
+		// console.log(this._tweakers.nb_piece_of_trash);
 		var tempShape;
 		this._bg = new createjs.Shape();
 		this._bg.graphics.beginFill("#000000").drawRect(0, 0, 960,680);
@@ -68,7 +66,6 @@
 		this._staminaBar.x = 230;
 		this._staminaBar.y = 640;
 		this.addChild(this._staminaBar);
-		
 		this._staminaBar.setProgress(this._currentStamina/this._tweakers.stamina_total);
 		
 		this.tf_time_left = new createjs.Text(this._currentStamina, "20px Arial", "#ffffff");
@@ -78,15 +75,11 @@
 	p.addFocusListener = function()
 	{
 		this.MiniGameBase_addFocusListener();
-		
-		// this._glasses.removeEventListener("click",this.onHandleMouse.bind(this));
-		// createjs.Ticker.addEventListener("tick", this.tick.bind(this));
 	}
 	
 	p.update = function()
 	{
 		this.MiniGameBase_update();
-		// console.log(this._currentStamina);
 		
 		if(this._currentStamina<this._tweakers.stamina_total&&!this._isDragging)
 		{
@@ -111,52 +104,46 @@
 	
 	p.onMouseDownTrash = function(event)
 	{
-		// console.log(event.type);
-		// console.log("YOOOOOOOOOOOOOOOOOOOOO");
-		// console.log(this);
-		// console.log(this.stageRef);
 		this._isDragging = true;
 		this._currentStamina -= this._tweakers.stamina_cost_pick_up;
 		this._currentTrashDragging = event.target;
 		this.stageRef.addEventListener("pressup",this.onMouseUpStage.bind(this));
 		this.stageRef.addEventListener("pressmove",this.onMouseMoveStage.bind(this));
-		// console.log(event.target);
+		this._baseOffsetX = event.target.x-event.stageX;
+		this._baseOffsetY = event.target.y-event.stageY;
 	}
 	
 	p.onMouseMoveStage = function(event)
 	{
-		// console.log(this._currentTrashDragging);
 		this.stageRef.update();
 		this._currentStamina -= this._tweakers.stamina_cost_pick_drag;
 		if(this._currentTrashDragging)
 		{
-			this._currentTrashDragging.x = event.stageX-50;
-			this._currentTrashDragging.y = event.stageY-50;
+			this._currentTrashDragging.x = event.stageX+this._baseOffsetX;
+			this._currentTrashDragging.y = event.stageY+this._baseOffsetY;
 		}
 	}
 	
 	p.onMouseUpStage = function(event)
 	{
-		// console.log("mouseUp");
 		this._isDragging = false; 
-		this.stageRef.removeEventListener("pressup",this.onMouseUpStage.bind(this));
-		this.stageRef.removeEventListener("pressmove",this.onMouseMoveStage.bind(this));
+		this.stageRef.removeAllEventListeners();
+		this.stageRef.removeEventListener("pressup");
+		this.stageRef.removeEventListener("pressmove");
 		this._currentTrashDragging = null;
-		// event.target.visible = false;
+		
 		var isStillIntersecting = false;
 		var rectOfTrash;
 		var rectOfGlasses = new createjs.Rectangle(this._glasses.x,this._glasses.y,100,100);;
 		for(var i = 0;i<this._arrayOfTrash.length;i++)
 		{
-			// if(this._arrayOfTrash[i].visible)
-			// {
-				rectOfTrash = new createjs.Rectangle(this._arrayOfTrash[i].x,this._arrayOfTrash[i].y,100,100);
-				if(rectOfGlasses.intersects(rectOfTrash))
-				{
-					isStillIntersecting = true;
-				}
-			// }
+			rectOfTrash = new createjs.Rectangle(this._arrayOfTrash[i].x,this._arrayOfTrash[i].y,100,100);
+			if(rectOfGlasses.intersects(rectOfTrash))
+			{
+				isStillIntersecting = true;
+			}
 		}
+		
 		
 		if(!isStillIntersecting)
 		{
@@ -187,7 +174,8 @@
 		}
 		this.removeChild(this._bg);
 		this.removeChild(this._glasses);
-		// this.removeChild(this._graphicsTest);
+		this.removeChild(this._staminaBar);
+		this.removeChild(this.tf_time_left);
 	}
 	
 	window.GlassesMiniGame = createjs.promote(GlassesMiniGame, "MiniGameBase");

@@ -3,9 +3,7 @@
 	function ProgressBar(barWidth,barheight)
 	{
 		this._barWidth = barWidth;
-		this._barheight = barheight;
-		
-		console.log("YEAT")
+		this._barheight = barheight;	
         this.UIBase_constructor();
 	}
 	
@@ -39,10 +37,8 @@
 	
 	p.setProgress = function($value)
 	{
-		this.currentPointerPosition = $value;
 		this._bar_shape.scaleX = $value;
 		// *this._barWidth
-		
 	}
 	// p.addFocusListener = function()
 	// {
@@ -57,6 +53,8 @@
 	p.destroy = function()
 	{ 
 		this.UIBase_destroy();
+		this.removeChild(this._background_shape);
+		this.removeChild(this._bar_shape);
 	}
 	
 	window.ProgressBar = createjs.promote(ProgressBar, "UIBase");
