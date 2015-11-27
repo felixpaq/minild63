@@ -8,19 +8,19 @@
         tiles = [],
         spritesheet;
 
-    var isActive = true;
-
-    window.onfocus = function () {
-        isActive = true;
-    };
-
-    window.onblur = function () {
-        isActive = false;
-    };
 
     var Game = window.Game = function(){
         this.init();
+        this.isActive = true;
         Controls.getInstance().addEvents();
+
+        window.onfocus = function () {
+            this.isActive = true;
+        }.bind(this);
+
+        window.onblur = function () {
+            this.isActive = false;
+        }.bind(this);
 
         return this;
     };
@@ -31,6 +31,10 @@
     Game.prototype.init = function (){
         this.stage = new createjs.Stage("canvas");
         this.canvas = document.getElementById("canvas");
+
+        this.canvas.getContext("2d").scale(3,3);
+        this.stage.scaleX = 1.5
+        this.stage.scaleY = 1.5
         w = this.stage.canvas.width;
         h = this.stage.canvas.height;
 
@@ -107,7 +111,8 @@
     };
 
     Game.prototype.tick = function(event) {
-        if(isActive){
+        //console.log(isActive);
+        if(this.isActive){
             this.stage.update(event);
             this.currentState.update();
             this.miniGamBridge.update();

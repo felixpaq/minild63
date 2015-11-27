@@ -17,6 +17,10 @@
         MAP_LOADED:"mapLoaded"
     };
 
+    Map.prototype.setActive = function(active){
+        this.active = active;
+    }
+
     Map.prototype.init = function(active){
 
         this.active = active || this.active;
@@ -27,7 +31,7 @@
     };
 
     Map.prototype.setupPlayer = function(){
-        this.player = new Player(90,90,this);
+        this.player = new Player(this.start.x,this.start.y,this);
         this.viewport.addChild(this.player);
     };
 
@@ -53,12 +57,11 @@
             }else if(layerData.type == 'objectgroup'){
                 if(layerData.properties){
                     if(layerData.properties.collisions == "true"){
-
                         this.layers[layerData.name] = new Map.CollisionLayer(layerData,this.world);
+                    }else if(layerData.properties.start == "true"){
+                        this.start = new Box2D.Common.Math.b2Vec2(layerData.objects[0].x,layerData.objects[0].y);
                     }
-
                 }
-
             }
         }
     };
@@ -69,19 +72,27 @@
 
         var objectIndex,
             object,
-            cell;
+            height,
+            width;
 
         for ( objectIndex = 0; objectIndex < this.layerData.objects.length; objectIndex++) {
 
             object = this.layerData.objects[objectIndex];
+
+            height = (object.height/2)
+
+
             var collisionFixture = new Box2D.Dynamics.b2FixtureDef;
             collisionFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape;
             collisionFixture.shape.SetAsBox(object.width / World.SCALE, (object.height/2) / World.SCALE);
             var collisionBodyDef = new Box2D.Dynamics.b2BodyDef;
             collisionBodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            collisionBodyDef.position.x = object.x / World.SCALE;
+            collisionBodyDef.position.x = (object.x) / World.SCALE;
             collisionBodyDef.position.y = (object.y + object.height/2) / World.SCALE;
+
             var collision = world.world.CreateBody(collisionBodyDef);
+
+            collision.SetUserData({origPos:collisionBodyDef.position});
             collision.CreateFixture(collisionFixture);
         }
     };

@@ -59,7 +59,7 @@
 <body>
     <div class="wrapper game">
         <canvas id="canvas" width="960px" height="680px"></canvas>
-        <canvas id="debugCanvas" width="960px" height="680px"></canvas>
+        <canvas id="debugCanvas" width="9600px" height="680px"></canvas>
 
     </div>
     <div class="wrapper">
@@ -77,6 +77,9 @@
         var game = new Game();
 
         var debugCanvas = document.getElementById("debugCanvas");
+		
+		toggleDebug();
+
         function launchMiniGame($index){
 			if(game.isMiniGameBridgeReady)
 			{

@@ -51,7 +51,8 @@
         console.log(this);
         var playerFixture = new Box2D.Dynamics.b2FixtureDef;
         playerFixture.density = 1;
-        playerFixture.restitution = 0.6;
+        playerFixture.restitution = 0;
+        //playerFixture.friction = 0;
         playerFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape;
         playerFixture.shape.SetAsBox(this.WIDTH/2 / World.SCALE, this.HEIGHT/2 / World.SCALE);
 
@@ -60,6 +61,7 @@
         playerBodyDef.position.x = this.x / World.SCALE;
         playerBodyDef.position.y = this.y / World.SCALE;
         playerBodyDef.allowSleep = false;
+        playerBodyDef.fixedRotation  = true
 
         this.scaleX = -1;
 
@@ -67,7 +69,7 @@
         this.body.CreateFixture(playerFixture);
 
         this.actor = new Actor(this.body, this,true,this.map.world);
-        this.body.SetUserData(this.actor);  // set the actor as user data of the body so we can use it later: body.GetUserData()
+        this.body.SetUserData({actor:this.actor});  // set the actor as user data of the body so we can use it later: body.GetUserData()
 
         console.log(this.map);
 

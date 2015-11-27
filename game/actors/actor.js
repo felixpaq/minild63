@@ -23,6 +23,7 @@
             if(Controls.KEYB_BUTTON[Controls.LEFT]||Controls.KEYB_BUTTON[Controls.A]){
 
                 this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(-1,0));
+                //this.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(-(1/World.SCALE),0),this.body.GetWorldCenter());
 
                 if(this.skin.scaleX != -1){
                     this.skin.scaleX = -1;
@@ -32,6 +33,7 @@
             }else if(Controls.KEYB_BUTTON[Controls.RIGHT]||Controls.KEYB_BUTTON[Controls.D]){
 
                 this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(1,0));
+                //this.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2((1/World.SCALE),0),this.body.GetWorldCenter());
 
                 if(this.skin.scaleX != 1){
                     this.skin.scaleX = 1;
