@@ -31,6 +31,10 @@
     Game.prototype.init = function (){
         this.stage = new createjs.Stage("canvas");
         this.canvas = document.getElementById("canvas");
+
+        this.canvas.getContext("2d").scale(3,3);
+        this.stage.scaleX = 1.5
+        this.stage.scaleY = 1.5
         w = this.stage.canvas.width;
         h = this.stage.canvas.height;
 

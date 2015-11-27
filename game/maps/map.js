@@ -31,7 +31,7 @@
     };
 
     Map.prototype.setupPlayer = function(){
-        this.player = new Player(90,90,this);
+        this.player = new Player(this.start.x,this.start.y,this);
         this.viewport.addChild(this.player);
     };
 
@@ -57,12 +57,11 @@
             }else if(layerData.type == 'objectgroup'){
                 if(layerData.properties){
                     if(layerData.properties.collisions == "true"){
-
                         this.layers[layerData.name] = new Map.CollisionLayer(layerData,this.world);
+                    }else if(layerData.properties.start == "true"){
+                        this.start = new Box2D.Common.Math.b2Vec2(layerData.objects[0].x,layerData.objects[0].y);
                     }
-
                 }
-
             }
         }
     };

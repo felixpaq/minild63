@@ -16,10 +16,7 @@
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-    var lastTimestamp = Date.now(),
-    fixedTimestepAccumulator = 0,
-    bodiesToRemove = [],
-    debugContext;
+    var debugContext;
 
 
     var World = window.World = function(map,debug){
@@ -65,21 +62,7 @@
 
     World.prototype.update = function(){
 
-
-        var now = Date.now();
-        var dt = now - lastTimestamp;
-        fixedTimestepAccumulator += dt;
-        lastTimestamp = now;
-
-        while(fixedTimestepAccumulator >= World.STEP && game.isActive) {
-            // remove bodies before world timestep
-            /*for(var i=0, l=bodiesToRemove.length; i<l; i++) {
-                removeActor(bodiesToRemove[i].GetUserData());
-                bodiesToRemove[i].SetUserData(null);
-                world.DestroyBody(bodiesToRemove[i]);
-            }
-            bodiesToRemove = [];*/
-
+        if(game.isActive) {
             // update active actors
             for(var i=0, l=this.actors.length; i<l; i++) {
                 this.actors[i].update();
@@ -87,37 +70,12 @@
 
             this.world.Step(World.TIMESTEP, 10, 10);
 
-            fixedTimestepAccumulator -= World.STEP;
             this.world.ClearForces();
 
             if(this.debug){
                 this.world.m_debugDraw.m_sprite.graphics.clear();
                 this.world.DrawDebugData();
             }
-
-            /*if(this.bodies.length > 30) {
-                bodiesToRemove.push(this.bodies[0]);
-                this.bodies.splice(0,1);
-            }*/
-        }
-    };
-
-    World.prototype.translate = function(x,y){
-        var _body = this.world.GetBodyList(),
-            _origPos = {},
-            _newPos = {},
-            _hasPos = false;
-
-        while(_body){
-            if(_body.GetUserData().origPos){
-                _origPos = _body.GetUserData().origPos || new b2Vec2(0,0);
-                _newPos = new b2Vec2(_origPos.x  + -x /World.SCALE,_origPos.y+ -y /World.SCALE);
-                _body.SetPosition(_newPos);
-            }else if(_body.GetUserData().actor){
-                _body.SetPosition(_body.GetUserData().actor.body.GetPosition());
-            }
-
-            _body = _body.GetNext();
         }
     };
 

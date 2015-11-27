@@ -1,13 +1,18 @@
 {
   "manifest":[
     {
-      "id":"collisions",
-      "src":"assets/maps/collisions.json",
+      "id":"player_room",
+      "src":"assets/maps/player_room.json",
       "tag":"map"
     },
     {
-      "id":"basicTileSheet",
-      "src":"assets/tiles/basicTileSheet.png",
+      "id":"tile_room-turquoise",
+      "src":"assets/tiles/tile_room-turquoise.png",
+      "tag":"tile"
+    },
+    {
+      "id":"tile_props",
+      "src":"assets/tiles/tile_props.png",
       "tag":"tile"
     },
     {

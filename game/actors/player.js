@@ -51,7 +51,8 @@
         console.log(this);
         var playerFixture = new Box2D.Dynamics.b2FixtureDef;
         playerFixture.density = 1;
-        playerFixture.restitution = 0.6;
+        playerFixture.restitution = 0;
+        //playerFixture.friction = 0;
         playerFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape;
         playerFixture.shape.SetAsBox(this.WIDTH/2 / World.SCALE, this.HEIGHT/2 / World.SCALE);
 

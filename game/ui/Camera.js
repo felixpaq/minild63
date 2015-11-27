@@ -12,10 +12,12 @@
 
     Camera.prototype.init = function(){
         this.minX = 0;
-        this.maxX = this.map.viewport.getBounds().width - game.canvas.width;
+        this.maxX = (this.map.viewport.getBounds().width) - game.canvas.width;
 
         this.minY = 0;
-        this.maxY = this.map.viewport.getBounds().height - game.canvas.height;
+        this.maxY = (this.map.viewport.getBounds().height)  - game.canvas.height;
+
+        console.log(this)
     };
 
     Camera.prototype.update = function(){
@@ -25,7 +27,6 @@
     };
 
     Camera.prototype.moveTo = function(x,y){
-        console.log(x,y);
         if(x > this.minX && x < this.maxX){
             this.map.viewport.x = -x;
         }
