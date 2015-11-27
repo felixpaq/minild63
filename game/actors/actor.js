@@ -22,7 +22,7 @@
 
             if(Controls.KEYB_BUTTON[Controls.LEFT]||Controls.KEYB_BUTTON[Controls.A]){
 
-                this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(-1,0));
+                this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(-2,0));
 
                 if(this.skin.scaleX != -1){
                     this.skin.scaleX = -1;
@@ -31,7 +31,7 @@
 
             }else if(Controls.KEYB_BUTTON[Controls.RIGHT]||Controls.KEYB_BUTTON[Controls.D]){
 
-                this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(1,0));
+                this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(2,0));
 
                 if(this.skin.scaleX != 1){
                     this.skin.scaleX = 1;

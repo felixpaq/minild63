@@ -113,6 +113,8 @@
                 _origPos = _body.GetUserData().origPos || new b2Vec2(0,0);
                 _newPos = new b2Vec2(_origPos.x  + -x /World.SCALE,_origPos.y+ -y /World.SCALE);
                 _body.SetPosition(_newPos);
+            }else if(_body.GetUserData().actor){
+                _body.SetPosition(_body.GetUserData().actor.body.GetPosition());
             }
 
             _body = _body.GetNext();

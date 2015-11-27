@@ -73,17 +73,22 @@
 
         var objectIndex,
             object,
-            cell;
+            height,
+            width;
 
         for ( objectIndex = 0; objectIndex < this.layerData.objects.length; objectIndex++) {
 
             object = this.layerData.objects[objectIndex];
+
+            height = (object.height/2)
+
+
             var collisionFixture = new Box2D.Dynamics.b2FixtureDef;
             collisionFixture.shape = new Box2D.Collision.Shapes.b2PolygonShape;
             collisionFixture.shape.SetAsBox(object.width / World.SCALE, (object.height/2) / World.SCALE);
             var collisionBodyDef = new Box2D.Dynamics.b2BodyDef;
             collisionBodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody;
-            collisionBodyDef.position.x = object.x / World.SCALE;
+            collisionBodyDef.position.x = (object.x) / World.SCALE;
             collisionBodyDef.position.y = (object.y + object.height/2) / World.SCALE;
 
             var collision = world.world.CreateBody(collisionBodyDef);

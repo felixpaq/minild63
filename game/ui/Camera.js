@@ -19,19 +19,18 @@
     };
 
     Camera.prototype.update = function(){
-        if(this.map.player.actor.moving){
+        //if(this.map.player.actor.moving){
             this.moveTo(-(game.canvas.width /2 - this.map.player.x),-(game.canvas.height /2 - this.map.player.y));
-        }
+        //}
     };
 
     Camera.prototype.moveTo = function(x,y){
         console.log(x,y);
-        if(x > this.minX && x < this.maxX || y > this.minY && y < this.maxY){
+        if(x > this.minX && x < this.maxX){
             this.map.viewport.x = -x;
-            this.map.viewport.y = -y;
-
-            this.map.world.translate((x>0?x:0),(y>0?y:0));
         }
-
+        if(y > this.minY && y < this.maxY){
+            this.map.viewport.y = -y;
+        }
     };
 }());

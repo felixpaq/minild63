@@ -60,6 +60,7 @@
         playerBodyDef.position.x = this.x / World.SCALE;
         playerBodyDef.position.y = this.y / World.SCALE;
         playerBodyDef.allowSleep = false;
+        playerBodyDef.fixedRotation  = true
 
         this.scaleX = -1;
 
