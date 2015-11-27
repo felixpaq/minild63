@@ -5,15 +5,15 @@
         this.MiniGameBase_constructor(tweakers,assetsAtlas);
 		createjs.EventDispatcher.initialize(RemoteMiniGame.prototype);
 		createjs.EventDispatcher.initialize(RemoteMiniGame);
-		
+		this._currentAction = this.bret;
 	}
 	
 	var p = createjs.extend(RemoteMiniGame, MiniGameBase);
-	p._currentGaugeIncrement;
-	p._currentGaugeValue;
+	
 	p._graphicsTest;
 	p.stageRef;
-	p._gaugeBar;
+	
+	p._currentstep;
 	
 	p.init = function()
 	{
@@ -22,51 +22,25 @@
 	
 	p.elementsSetup = function()
 	{
+		console.log(this._tweakers);
+		
+		
 		this.MiniGameBase_elementsSetup();
 		this._graphicsTest = new createjs.Bitmap(this._assetsAtlas["minigame_0_test_asset"]);
 		this.addChild(this._graphicsTest);
-		
-		this._gaugeBar = new GaugeBar(500,50);
-		this._gaugeBar.x = 230;
-		this._gaugeBar.y = 610;
-		console.log("p.stageRef.width");
-		console.log(this.stageRef.width);
-		console.log("this._gaugeBar");
-		console.log(this._gaugeBar.getBounds());
-		this.addChild(this._gaugeBar);
-		console.log("DO I EVEN HAPPEN");
-		this._currentGaugeValue = 0;
-		this._currentGaugeIncrement = 0.015;
-		// shape.addEventListener("mousedown",function(event){
-			// console.log("BREH BREH BREH");
-			// console.log(event);
-		// });
-		// shape.addEventListener("click",function(event){
-			// console.log("BREH BREH BREH");
-			// console.log(event);
-		// });
-		// shape.addEventListener("mouseup",function(event){
-			// console.log("BREH BREH BREH");
-			// console.log(event);
-		// });
-		// shape.on("click", function(evt) {
-			// alert("type: "+evt.type+" target: "+evt.target+" stageX: "+evt.stageX);
-		// });
+		this._currentstep = new SweetSpotStep(this._tweakers.sweet_spot,"");
+		this.addChild(this._currentstep);
+		// this.removeChild(this._currentstep);
 	}
 	
 	p.tick = function(event)
 	{
-		this._currentGaugeValue+=this._currentGaugeIncrement;
-		if(this._currentGaugeValue>= 0.99)
+		if(this._currentstep)
 		{
-			this._currentGaugeIncrement = -this._currentGaugeIncrement;
+			this._currentstep.tick();
 		}
-		if(this._currentGaugeValue<=0.01){
-			this._currentGaugeIncrement = -this._currentGaugeIncrement;
-		}
-		this._gaugeBar.setPointerPosition(this._currentGaugeValue);
-	
 	}
+
 	p.handleMouseEvent = function(event)
 	{
 		console.log("WAAAAAAAAAAAAAA IS HAPPENING");
@@ -75,29 +49,34 @@
 	p.addFocusListener = function()
 	{
 		this.MiniGameBase_addFocusListener();
-		this._graphicsTest.addEventListener("click",this.onHandleMouse.bind(this));	
-		
-		console.log(this._graphicsTest);
+		// this._graphicsTest.addEventListener("click",this.onHandleMouse.bind(this));	
+		this._currentstep.addEventListener(MiniGameStepBase.DONE,this.onStepDone.bind(this))
+		this._currentstep.addEventListener(MiniGameStepBase.TAKE_STAMINA_COST,this.onTakeStaminaCost.bind(this));
+		// console.log(this._graphicsTest);
 		createjs.Ticker.addEventListener("tick", this.tick.bind(this));
 	}
-	
-	p.onHandleMouse = function(event)
-	{
-		if(this._gaugeBar.currentPointerPosition<0.7&&this._gaugeBar.currentPointerPosition>0.3)
-		{
-			this.dispatchEvent("success");
-		}
-		else
-		{
-			this.dispatchEvent("fail");
-		}
-	}
+
 	p.removeFocusListener = function()
 	{
 		this.MiniGameBase_removeFocusListener();
-		this._graphicsTest.removeEventListener("click",this.onHandleMouse);	
+		// this._graphicsTest.removeEventListener("click",this.onHandleMouse);	
+		if(this._currentstep)
+		{
+			this._currentstep.removeEventListener(MiniGameStepBase.DONE)
+			this._currentstep.removeEventListener(MiniGameStepBase.TAKE_STAMINA_COST);
+		}
 	}
 	
+	p.onStepDone = function(event)
+	{
+		this.removeChild(this._currentstep);
+		this._currentstep = null;
+		this.dispatchEvent("success");
+	}
+	p.onTakeStaminaCost = function(event)
+	{
+		console.log(event.target.staminaCost);
+	}
 	p.test = function()
 	{ 
 		

@@ -35,6 +35,8 @@
 	{
 		this.MiniGameBase_elementsSetup();
 		this._currentStamina = this._tweakers.stamina_total;
+		
+		
 		// console.log(this._tweakers.stamina_cost_pick_up);
 		// console.log(this._tweakers.stamina_cost_pick_drag);
 		// console.log(this._tweakers.stamina_regen);

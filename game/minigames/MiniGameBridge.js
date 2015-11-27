@@ -127,7 +127,6 @@
 	
 	p.update = function()
 	{
-		
 		if(this._currenMiniGame)
 		{
 			this._currenMiniGame.update();
@@ -145,13 +144,14 @@
 			case "mini_game_0":
 				this._currenMiniGame = new GlassesMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
+			case "mini_game_1":
+				this._currenMiniGame = new RemoteMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
+			break;
 		}
 		this._currenMiniGame.on("success",p.onGameEnd.bind(this));
 		this._currenMiniGame.on("fail",p.onGameEnd.bind(this));
 		p.stageRef.addChild(this._currenMiniGame);
 	}
-	
-	
 	
 	p.onGameEnd = function(event)
 	{

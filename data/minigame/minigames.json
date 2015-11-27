@@ -1,8 +1,14 @@
 {
 	"mini_game_0":
 	{
-		"name":"MIGTHY PARKINSON BINGO",
+		"name":"WHERE ARE MY GLASSES",
 		"tweaker":"data/minigame/tweaker/minigame_0_tweaker.json",
 		"assets":"data/minigame/manifests/minigame_0_manifests.json"
+	},
+	"mini_game_1":
+	{
+		"name":"GET TO THA REMOTE",
+		"tweaker":"data/minigame/tweaker/minigame_1_tweaker.json",
+		"assets":"data/minigame/manifests/minigame_1_manifests.json"
 	}
 }
