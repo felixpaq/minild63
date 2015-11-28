@@ -4,10 +4,10 @@
 	"time_to_do_the_game":20000,
 	"ddr":{
 		"stamina_cost":5,
-		"speed_of_arrow":0.05,
-		"time_between_arrow":500,
-		"arrow_success_treshold":0.7,
-		"nb_to_complete":5
+		"speed_of_arrow":0.01,
+		"time_between_arrow":1200,
+		"arrow_success_treshold":0.6,
+		"nb_to_complete":10
 	},
 	"sweet_spot":{
 		"stamina_cost":10,

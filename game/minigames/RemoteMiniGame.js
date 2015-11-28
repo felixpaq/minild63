@@ -6,6 +6,7 @@
 		createjs.EventDispatcher.initialize(RemoteMiniGame.prototype);
 		createjs.EventDispatcher.initialize(RemoteMiniGame);
 		this._currentAction = this.bret;
+		// this.setBounds(new createjs.Rectangle(0,0,512,512));
 	}
 	
 	var p = createjs.extend(RemoteMiniGame, MiniGameBase);
@@ -22,11 +23,12 @@
 	
 	p.elementsSetup = function()
 	{
-		console.log(this._tweakers);
+		// console.log(this._tweakers);
 		
 		
 		this.MiniGameBase_elementsSetup();
-		this._graphicsTest = new createjs.Bitmap(this._assetsAtlas["minigame_0_test_asset"]);
+		this._graphicsTest = new createjs.Bitmap(this._assetsAtlas["minigame_0_test_asset"].src);
+		this._graphicsTest.scaleX = this._graphicsTest.scaleY = 0.5;
 		this.addChild(this._graphicsTest);
 		// this._currentstep = new SweetSpotStep(this._tweakers.sweet_spot,"");
 		this._currentstep = new DDRStep(this._tweakers.ddr,"test");
@@ -66,10 +68,12 @@
 		this._currentstep = null;
 		this.dispatchEvent("success");
 	}
+	
 	p.onTakeStaminaCost = function(event)
 	{
-		console.log(event.target.staminaCost);
+		// console.log(event.target.staminaCost);
 	}
+	
 	p.test = function()
 	{ 
 		

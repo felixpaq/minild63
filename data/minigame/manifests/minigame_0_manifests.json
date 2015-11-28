@@ -2,10 +2,6 @@
 	"asset_list":
 	[
 		{
-			"src": "assets/minigames/minigame_0/test.png",
-			"id": "minigame_0_test_asset"
-		},
-		{
 			"src": "assets/minigames/minigame_0/verre_avec_dentier.png",
 			"id": "verre_avec_dentier"
 		},
