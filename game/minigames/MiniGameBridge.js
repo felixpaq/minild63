@@ -28,8 +28,7 @@
 	p._currenMiniGame;
 	p.isTweakerLoaded;
 	p.isAssetAtlasLoaded;
-	
-
+	p._blackScreen;
 	
 	MiniGameBridge.prototype.loadMiniGamInfo = function()
 	{
@@ -41,6 +40,8 @@
 		p.manifestLoader = new createjs.LoadQueue(false);
 		p.manifestLoader.addEventListener("complete", p.loadMiniGames.bind(this));
 		p.manifestLoader.loadManifest(manifest, true);
+		this._blackScreen = new createjs.Shape();
+		this._blackScreen.graphics.beginFill("#000000").drawRect(0, 0, 960, 680);
 		
 	};
 
@@ -97,7 +98,12 @@
 	
 	p.addMiniGameAssetToAtlas = function(event)
 	{
-		p.miniGameAssetAtlas[event.item.id] = p.miniGameAssetLoader.getResult(event.item.id);
+		// console.log(event);
+		// console.log(p.miniGameAssetLoader.getItem(event.item.id).test);
+		// console.log(p.miniGameAssetLoader.getResult(event.item.id).test);
+		p.miniGameAssetAtlas[event.item.id] = {};
+		p.miniGameAssetAtlas[event.item.id].info = p.miniGameAssetLoader.getResult(event.item.id);
+		p.miniGameAssetAtlas[event.item.id].src = p.miniGameAssetLoader.getResult(event.item.id);
 	}
 	
 	p.addEntryInTweakerAtlas = function(event)
@@ -148,9 +154,16 @@
 				this._currenMiniGame = new RemoteMiniGame(p.miniGameTweakerAtlas[miniGameID], p.miniGameAssetAtlas,p.stageRef);	
 			break;
 		}
+		p.stageRef.addChild(this._blackScreen);
 		this._currenMiniGame.on("success",p.onGameEnd.bind(this));
 		this._currenMiniGame.on("fail",p.onGameEnd.bind(this));
 		p.stageRef.addChild(this._currenMiniGame);
+		this._currenMiniGame.x = 960/2-this._currenMiniGame.getBounds().width/2;
+		this._currenMiniGame.y = 680/2-this._currenMiniGame.getBounds().height/2;
+		// console.log(this._currenMiniGame.getBounds().width);
+		// console.log(this._currenMiniGame.getBounds().height);
+		// console.log(p.stageRef.getBounds().width);
+		// console.log(p.stageRef.getBounds().height);
 	}
 	
 	p.onGameEnd = function(event)
@@ -169,6 +182,7 @@
 	
 	p.destroyGame = function()
 	{
+		p.stageRef.removeChild(this._blackScreen);
 		p.stageRef.removeChild(this._currenMiniGame);
 		this._currenMiniGame.removeAllEventListeners();
 		this._currenMiniGame = null;

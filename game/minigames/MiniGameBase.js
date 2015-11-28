@@ -7,6 +7,7 @@
         this.Container_constructor();
 		p._assetsAtlas = assetsAtlas;
 		p._tweakers = tweakers;
+		// this.scaleX = this.scaleY = 0.65;
 		this.on("added",this.init);
 	}
 	var p = createjs.extend(MiniGameBase, createjs.Container);

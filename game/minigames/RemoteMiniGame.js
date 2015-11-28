@@ -28,7 +28,8 @@
 		this.MiniGameBase_elementsSetup();
 		this._graphicsTest = new createjs.Bitmap(this._assetsAtlas["minigame_0_test_asset"]);
 		this.addChild(this._graphicsTest);
-		this._currentstep = new SweetSpotStep(this._tweakers.sweet_spot,"");
+		// this._currentstep = new SweetSpotStep(this._tweakers.sweet_spot,"");
+		this._currentstep = new DDRStep(this._tweakers.ddr,"test");
 		this.addChild(this._currentstep);
 		// this.removeChild(this._currentstep);
 	}
@@ -40,26 +41,18 @@
 			this._currentstep.tick();
 		}
 	}
-
-	p.handleMouseEvent = function(event)
-	{
-		console.log("WAAAAAAAAAAAAAA IS HAPPENING");
-		console.log(event);
-	}
+	
 	p.addFocusListener = function()
 	{
 		this.MiniGameBase_addFocusListener();
-		// this._graphicsTest.addEventListener("click",this.onHandleMouse.bind(this));	
 		this._currentstep.addEventListener(MiniGameStepBase.DONE,this.onStepDone.bind(this))
 		this._currentstep.addEventListener(MiniGameStepBase.TAKE_STAMINA_COST,this.onTakeStaminaCost.bind(this));
-		// console.log(this._graphicsTest);
 		createjs.Ticker.addEventListener("tick", this.tick.bind(this));
 	}
 
 	p.removeFocusListener = function()
 	{
 		this.MiniGameBase_removeFocusListener();
-		// this._graphicsTest.removeEventListener("click",this.onHandleMouse);	
 		if(this._currentstep)
 		{
 			this._currentstep.removeEventListener(MiniGameStepBase.DONE)

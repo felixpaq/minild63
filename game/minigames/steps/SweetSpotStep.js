@@ -5,8 +5,8 @@
         this.MiniGameStepBase_constructor($tweakers,$name);
 	}
 	var p = createjs.extend(SweetSpotStep, MiniGameStepBase);
-	p.name;
-	p._tweakers;
+	// p.name;
+	// p._tweakers;
 	p._currentGaugeIncrement;
 	p._currentGaugeValue;
 	p._gaugeBar;

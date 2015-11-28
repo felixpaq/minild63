@@ -2,8 +2,72 @@
 	"asset_list":
 	[
 		{
-			"src": "assets/minigames/test.png",
+			"src": "assets/minigames/minigame_0/test.png",
 			"id": "minigame_0_test_asset"
+		},
+		{
+			"src": "assets/minigames/minigame_0/verre_avec_dentier.png",
+			"id": "verre_avec_dentier"
+		},
+		{
+			"src": "assets/minigames/minigame_0/assiette_vide_miette.png",
+			"id": "assiette_vide_miette"
+		},
+		{
+			"src": "assets/minigames/minigame_0/boite_de_mouchoir.png",
+			"id": "boite_de_mouchoir"
+		},
+		{
+			"src": "assets/minigames/minigame_0/cactus.png",
+			"id": "cactus"
+		},
+		{
+			"src": "assets/minigames/minigame_0/cendrier.png",
+			"id": "cendrier"
+		},
+		{
+			"src": "assets/minigames/minigame_0/lampe.png",
+			"id": "lampe"
+		},
+		{
+			"src": "assets/minigames/minigame_0/loupe.png",
+			"id": "loupe"
+		},
+		{
+			"src": "assets/minigames/minigame_0/mots_croise.png",
+			"id": "mots_croise"
+		},
+		{
+			"src": "assets/minigames/minigame_0/paparman.png",
+			"id": "paparman"
+		},
+		{
+			"src": "assets/minigames/minigame_0/peigne.png",
+			"id": "peigne"
+		},
+		{
+			"src": "assets/minigames/minigame_0/photo.png",
+			"id": "photo"
+		},
+		{
+			"src": "assets/minigames/minigame_0/pots_de_pillules.png",
+			"id": "pots_de_pillules"
+		},
+		{
+			"src": "assets/minigames/minigame_0/tv_hebdo.png",
+			"id": "tv_hebdo"
+		},
+		{
+			"src": "assets/minigames/minigame_0/hand_closed.png",
+			"id": "hand_closed"
+		},
+		{
+			"src": "assets/minigames/minigame_0/lunette.png",
+			"id": "lunette"
+		},
+		{
+			"src": "assets/minigames/minigame_0/background_table.jpg",
+			"id": "background_table"
 		}
 	]
 }
