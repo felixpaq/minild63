@@ -42,7 +42,6 @@
 		p.manifestLoader.loadManifest(manifest, true);
 		this._blackScreen = new createjs.Shape();
 		this._blackScreen.graphics.beginFill("#000000").drawRect(0, 0, 960, 680);
-		
 	};
 
 	
